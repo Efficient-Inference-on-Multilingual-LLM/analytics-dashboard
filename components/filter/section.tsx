@@ -1,5 +1,11 @@
 import React from 'react'
-import { SectionProps } from '@/types/filter'
+
+interface SectionProps {
+  title: string;
+  children: React.ReactNode;
+  outerClassName?: string;
+  innerClassName?: string;
+}
 
 const Section = ({ title, children, outerClassName, innerClassName }: SectionProps) => {
   return (
