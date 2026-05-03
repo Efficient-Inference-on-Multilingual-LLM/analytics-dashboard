@@ -14,12 +14,12 @@ export const METHODS = [
 ];
 
 export const MODELS = [
-  { id: "gemma-3-12b-it",     label: "Gemma 3 12B Instruct",        layerCount: 48 },
-  { id: "smollm3-3b",         label: "SmolLM 3 3B",                 layerCount: 36 },
-  { id: "qwen3-14b",          label: "Qwen 3 14B",                  layerCount: 40 },
-  { id: "gpt-oss-20b",        label: "GPT OSS 20B",                 layerCount: 44 },
-  { id: "olmo2-13b-instruct", label: "OLMo2 13B Instruct",          layerCount: 40 },
-  { id: "qwen15-moe",         label: "Qwen 1.5 MoE 14.3B A2.7B",    layerCount: 24 },
+  { value: "gemma-3-12b-it",     label: "Gemma 3 12B Instruct",        layerCount: 48 },
+  { value: "smollm3-3b",         label: "SmolLM 3 3B",                 layerCount: 36 },
+  { value: "qwen3-14b",          label: "Qwen 3 14B",                  layerCount: 40 },
+  { value: "gpt-oss-20b",        label: "GPT OSS 20B",                 layerCount: 44 },
+  { value: "olmo2-13b-instruct", label: "OLMo2 13B Instruct",          layerCount: 40 },
+  { value: "qwen15-moe",         label: "Qwen 1.5 MoE 14.3B A2.7B",    layerCount: 24 },
 ];
 
 export const COMPONENTS = [
@@ -42,4 +42,9 @@ export const GROUP_BY_OPTIONS = [
   { value: "vocab",        label: "Vocab" },
   { value: "tokenScript",  label: "Token Script" },
   { value: "none",         label: "None" },
+]
+
+export const AGGREGATION_OPTIONS = [
+  { value: "mean", label: "Mean" },
+  { value: "all", label: "All" },
 ]

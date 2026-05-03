@@ -1,10 +1,5 @@
-export interface SectionProps {
-    title: string;
-    children: React.ReactNode;
-    outerClassName?: string;
-    innerClassName?: string;
-}
-
-export interface MethodSelectorProps {
-    label: string;
+export interface ModelOption {
+  id: string;
+  label: string;
+  layerCount: number;
 }
