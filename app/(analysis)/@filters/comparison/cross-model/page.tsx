@@ -1,8 +1,12 @@
+import Section from '@/components/filter/section'
+import MethodSelector from '@/components/filter/method-selector'
 import React from 'react'
 
 const CrossModelFilters = () => {
   return (
-    <div>CrossModelFilters</div>
+    <Section title="Cross-Model Filters">
+      <MethodSelector />
+    </Section>
   )
 }
 
