@@ -6,10 +6,12 @@ interface MultiSelectProps <T extends {value: string, label: string}> {
   frameworks: T[];
   className?: string;
   label?: string;
+  placeholder?: string;
 }
 
-function MultiSelect<T extends {value: string, label: string}>({ frameworks, className, label }: MultiSelectProps<T>) {
+function MultiSelect<T extends {value: string, label: string}>({ frameworks, className, label, placeholder }: MultiSelectProps<T>) {
   const anchor = useComboboxAnchor();
+  const placeholderText = placeholder || "Select items to compare";
 
   return (
     <div className={className}>
@@ -33,7 +35,7 @@ function MultiSelect<T extends {value: string, label: string}>({ frameworks, cla
                     {item.label}
                   </ComboboxChip>
                 ))}
-                <ComboboxChipsInput placeholder={items.length === 0 ? "Select model to compare" : ""} />
+                <ComboboxChipsInput placeholder={items.length === 0 ? placeholderText : ""} />
               </React.Fragment>
             )
           }}
