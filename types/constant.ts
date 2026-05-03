@@ -29,3 +29,17 @@ export const COMPONENTS = [
   { value: "mlp",               label: "MLP" },
   { value: "output",            label: "Output" },
 ];
+
+export const GROUP_BY_OPTIONS = [
+  { value: "family",       label: "Language Family" },
+  { value: "subfamily",    label: "Sub-family" },
+  { value: "subsubfamily", label: "Sub-sub-family" },
+  { value: "region",       label: "Region" },
+  { value: "joshi",        label: "Joshi Class" },
+  { value: "syntax",       label: "Syntax" },
+  { value: "script",       label: "Script" },
+  { value: "phonetics",    label: "Phonetics" },
+  { value: "vocab",        label: "Vocab" },
+  { value: "tokenScript",  label: "Token Script" },
+  { value: "none",         label: "None" },
+]
