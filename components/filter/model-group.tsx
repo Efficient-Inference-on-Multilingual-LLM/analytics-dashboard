@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Label } from "../ui/label";
-import { MODELS, COMPONENTS } from "@/types/constant";
 import {
   Combobox,
   ComboboxContent,
@@ -11,14 +10,34 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "../ui/combobox";
+import { useModels, useComponents } from "@/hooks/api/models";
+import { useFilterStore } from "@/store/filter-store";
 
 interface ModelGroupProps {
   label: string;
+  type: "A" | "B";
 }
 
-const ModelGroup = ({ label }: ModelGroupProps) => {
-  type ModelOptions = (typeof MODELS)[number];
-  type ComponentOptions = (typeof COMPONENTS)[number];
+const ModelGroup = ({ label, type }: ModelGroupProps) => {
+  const { data: modelsData } = useModels();
+  const { data: componentsData } = useComponents();
+
+  const selectedModel = useFilterStore((state) =>
+    type === "A" ? state.selectedModelA : state.selectedModelB,
+  );
+  const selectedComponent = useFilterStore((state) =>
+    type === "A" ? state.selectedComponentA : state.selectedComponentB,
+  );
+
+  const setSelectedModel = useFilterStore((state) =>
+    type === "A" ? state.setSelectedModelA : state.setSelectedModelB,
+  );
+  const setSelectedComponent = useFilterStore((state) =>
+    type === "A" ? state.setSelectedComponentA : state.setSelectedComponentB,
+  );
+  const allModels = modelsData?.models.map((model) => model.label) || [];
+  const allComponents =
+    componentsData?.components.map((comp) => comp.label) || [];
   return (
     <div className="rounded-lg border border-border p-3 flex flex-col gap-3">
       <div className="text-sm font-semibold uppercase tracking-wide">
@@ -27,9 +46,9 @@ const ModelGroup = ({ label }: ModelGroupProps) => {
       <div>
         <Label className="text-sm px-1">Model</Label>
         <Combobox
-          items={MODELS}
-          itemToStringLabel={(item: ModelOptions) => item.label}
-          itemToStringValue={(item: ModelOptions) => item.value}
+          items={allModels.map((model) => ({ value: model, label: model }))}
+          value={selectedModel}
+          onValueChange={setSelectedModel}
         >
           <ComboboxInput placeholder="Select a model" showClear />
           <ComboboxContent>
@@ -46,9 +65,9 @@ const ModelGroup = ({ label }: ModelGroupProps) => {
       </div>
       <div>
         <Combobox
-          items={COMPONENTS}
-          itemToStringLabel={(item: ComponentOptions) => item.label}
-          itemToStringValue={(item: ComponentOptions) => item.value}
+          items={allComponents.map((comp) => ({ value: comp, label: comp }))}
+          value={selectedComponent}
+          onValueChange={setSelectedComponent}
         >
           <ComboboxInput placeholder="Select a component" showClear />
           <ComboboxContent>
