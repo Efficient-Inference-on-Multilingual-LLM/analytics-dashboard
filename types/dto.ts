@@ -25,6 +25,12 @@ export const LanguageDtoSchema = z.object({
   vocab: z.string(),
 });
 
+export const MethodDtoSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+});
+
+export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
 export type LanguageDto = z.infer<typeof LanguageDtoSchema>;
