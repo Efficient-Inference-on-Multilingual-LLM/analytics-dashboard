@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { LanguageFilters, DEFAULT_FILTERS } from "@/lib/filter/language-filter";
 
 interface FilterState {
   groupBy: string;
@@ -19,6 +20,8 @@ interface FilterState {
   selectedLayers: number[];
   layerPercentage: number;
 
+  languageFilters: LanguageFilters;
+
   setGroupBy: (groupBy: string) => void;
   setPivotLanguage: (language: string | null) => void;
 
@@ -36,6 +39,9 @@ interface FilterState {
   setSelectedComponents: (components: string[]) => void;
   setSelectedLayers: (layers: number[]) => void;
   setLayerPercentage: (percentage: number) => void;
+
+  setLanguageFilters: (filters: Partial<LanguageFilters>) => void;
+  resetLanguageFilters: () => void;
 }
 
 const defaultState = {
@@ -56,6 +62,8 @@ const defaultState = {
   selectedComponents: [] as string[],
   selectedLayers: [] as number[],
   layerPercentage: 50,
+
+  languageFilters: DEFAULT_FILTERS,
 };
 
 export const useFilterStore = create<FilterState>()(
@@ -85,6 +93,12 @@ export const useFilterStore = create<FilterState>()(
         set({ selectedComponentB }),
       setSelectedLayerB: (selectedLayerB: number | null) =>
         set({ selectedLayerB }),
+
+      setLanguageFilters: (filters: Partial<LanguageFilters>) =>
+        set((state) => ({
+          languageFilters: { ...state.languageFilters, ...filters },
+        })),
+      resetLanguageFilters: () => set({ languageFilters: DEFAULT_FILTERS }),
     }),
     {
       name: "filter-store",

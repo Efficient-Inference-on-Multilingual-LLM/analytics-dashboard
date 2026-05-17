@@ -1,6 +1,6 @@
 import React from "react";
 import { Label } from "./label";
-import { X, ChevronDown } from "lucide-react";
+import { Check, X, ChevronDown } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -83,6 +83,9 @@ const MultiPicker = ({
                     key={option.value}
                     onSelect={() => toogle(option.value)}
                   >
+                    <Check
+                      className={`mr-2 h-3 w-3 ${selected.includes(option.value) ? "opacity-100" : "opacity-0"}`}
+                    />
                     {option.label}
                   </CommandItem>
                 ))}
@@ -92,7 +95,7 @@ const MultiPicker = ({
         </PopoverContent>
       </Popover>
       {selected.length > 0 && selected.length <= 4 && (
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1 mt-2">
           {selected.map((value) => (
             <Badge
               key={value}

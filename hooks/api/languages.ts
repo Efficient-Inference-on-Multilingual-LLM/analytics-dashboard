@@ -9,3 +9,11 @@ export function useLanguages() {
     staleTime: Infinity,
   });
 }
+
+export function useTaxonomy() {
+  return useQuery({
+    queryKey: ["taxonomy"],
+    queryFn: () => apiClient.get<LanguageResponse>("/languages/taxonomy"),
+    staleTime: Infinity,
+  });
+}
