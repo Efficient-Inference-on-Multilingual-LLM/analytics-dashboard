@@ -3,7 +3,7 @@ import { z } from "zod";
 export const ModelDtoSchema = z.object({
   id: z.string(),
   label: z.string(),
-  layerCount: z.number(),
+  layer_count: z.number(),
 });
 
 export const ComponentDtoSchema = z.object({
@@ -30,7 +30,16 @@ export const MethodDtoSchema = z.object({
   label: z.string(),
 });
 
+export const LayerHeatmapDtoSchema = z.object({
+  layer: z.number(),
+  languages: z.array(z.string()),
+  matrix: z.array(z.array(z.number())),
+  value_range: z.tuple([z.number(), z.number()]),
+  value: z.number(),
+});
+
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
 export type LanguageDto = z.infer<typeof LanguageDtoSchema>;
+export type LayerHeatmapDto = z.infer<typeof LayerHeatmapDtoSchema>;

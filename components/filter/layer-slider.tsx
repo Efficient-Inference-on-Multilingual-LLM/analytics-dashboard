@@ -16,6 +16,7 @@ interface LayerSliderProps {
   formatValue?: (value: number) => string;
   className?: string;
   disabled?: boolean;
+  type?: "layer" | "percentage";
 }
 
 const LayerSlider = ({
@@ -44,17 +45,18 @@ const LayerSlider = ({
         {showTooltip && (
           <div className="absolute pointer-events-none h-6 inset-x-0 -top-8">
             {value.map((val, index) => {
+              val = Math.min(Math.max(val, min), max);
               const percent = ((val - min) / (max - min)) * 100;
               return (
                 <div
                   key={index}
                   style={{ left: `${percent}%` }}
                   className={cn(
-                    "absolute transition-opacity duration-150",
+                    "absolute transition-opacity -translate-x-1/2 duration-150",
                     isInteracting ? "opacity-100" : "opacity-0",
                   )}
                 >
-                  <span className="rounded-md px-2 py-1 whitespace-nowrap text-xs font-medium ring-1 ring-foreground/10 shadow-md">
+                  <span className="rounded-md px-2 py-1 whitespace-nowrap text-xs font-medium ring-1 ring-foreground/10 shadow-md bg-white">
                     {formatValue(val)}
                   </span>
                 </div>

@@ -55,7 +55,7 @@ const ModelGroup = ({ label, type }: ModelGroupProps) => {
             <ComboboxEmpty>No items found.</ComboboxEmpty>
             <ComboboxList>
               {(item) => (
-                <ComboboxItem key={item.value} value={item}>
+                <ComboboxItem key={item.value} value={item.value}>
                   {item.label}
                 </ComboboxItem>
               )}
@@ -75,7 +75,7 @@ const ModelGroup = ({ label, type }: ModelGroupProps) => {
             <ComboboxEmpty>No items found.</ComboboxEmpty>
             <ComboboxList>
               {(item) => (
-                <ComboboxItem key={item.value} value={item}>
+                <ComboboxItem key={item.value} value={item.value}>
                   {item.label}
                 </ComboboxItem>
               )}
