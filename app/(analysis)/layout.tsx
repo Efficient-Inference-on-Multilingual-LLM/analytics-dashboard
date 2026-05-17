@@ -8,11 +8,11 @@ const AnalysisLayout = ({
   filters: React.ReactNode;
 }) => {
   return (
-    <div className="flex min-h-full">
-      <aside className="w-80 shrink-0 overflow-y-auto border-r p-4">
+    <div className="flex h-full overflow-hidden min-h-0">
+      <aside className="w-80 shrink-0 overflow-y-auto no-scrollbar border-r p-4">
         {filters}
       </aside>
-      <div className="overflow-auto">{children}</div>
+      <div className="flex-1 overflow-y-auto no-scrollbar min-h-0">{children}</div>
     </div>
   );
 };

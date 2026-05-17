@@ -19,11 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("h-full", "font-sans", geist.variable)}>
-      <body className="antialiased min-h-full flex flex-col">
+      <body className="antialiased h-full">
         <QueryProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <div className="h-full flex flex-col">
+            <Navbar />
+            <main className="flex-1 min-h-0">{children}</main>
+            <Footer />
+          </div>
         </QueryProvider>
       </body>
     </html>
