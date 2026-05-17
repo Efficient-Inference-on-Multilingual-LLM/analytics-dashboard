@@ -64,6 +64,7 @@ const ModelGroup = ({ label, type }: ModelGroupProps) => {
         </Combobox>
       </div>
       <div>
+        <Label className="text-sm px-1">Component</Label>
         <Combobox
           items={allComponents.map((comp) => ({ value: comp, label: comp }))}
           value={selectedComponent}
