@@ -29,3 +29,9 @@ export const SAMPLE_LANGUAGES = [
   { code: "ind_Latn", name: "Indonesian" },
   { code: "hin_Deva", name: "Hindi" },
 ];
+
+export const LINKAGE_METHODS = [
+  { value: "single", label: "Single Linkage" },
+  { value: "complete", label: "Complete Linkage" },
+  { value: "average", label: "Average Linkage" },
+];
