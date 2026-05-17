@@ -6,7 +6,7 @@ export interface LanguageFilters {
   subfamilies: string[];
   subsubfamilies: string[];
   scripts: string[];
-  joshiRange: [number, number];
+  joshiClasses: number[];
   syntaxes: string[];
   vocabs: string[];
   phonetics: string[];
@@ -20,7 +20,7 @@ export interface FilterResults {
   allSubfamilies: string[];
   allSubsubfamilies: string[];
   allScripts: string[];
-  allJoshiRanges: [number, number][];
+  allJoshiClasses: number[];
   allSyntaxes: string[];
   allVocabs: string[];
   allPhonetics: string[];
@@ -35,7 +35,7 @@ export const DEFAULT_FILTERS: LanguageFilters = {
   subfamilies: [],
   subsubfamilies: [],
   scripts: [],
-  joshiRange: [-1, 5],
+  joshiClasses: [],
   syntaxes: [],
   vocabs: [],
   phonetics: [],
@@ -61,8 +61,7 @@ export function applyFilters(
   const matchScript = (lang: LanguageDto) =>
     filters.scripts.length === 0 || filters.scripts.includes(lang.script);
   const matchJoshi = (lang: LanguageDto) =>
-    lang.joshi_class >= filters.joshiRange[0] &&
-    lang.joshi_class <= filters.joshiRange[1];
+    filters.joshiClasses.length === 0 || filters.joshiClasses.includes(lang.joshi_class);
   const matchSyntax = (lang: LanguageDto) =>
     filters.syntaxes.length === 0 || filters.syntaxes.includes(lang.syntax);
   const matchVocab = (lang: LanguageDto) =>
@@ -93,8 +92,7 @@ export function applyFilters(
   if (filters.subfamilies.length) activeFilters.push("Subfamily");
   if (filters.subsubfamilies.length) activeFilters.push("Sub-subfamily");
   if (filters.scripts.length) activeFilters.push("Script");
-  if (filters.joshiRange[0] > -1 || filters.joshiRange[1] < 5)
-    activeFilters.push("Joshi Class");
+  if (filters.joshiClasses.length) activeFilters.push("Joshi Class");
   if (filters.syntaxes.length) activeFilters.push("Syntax");
   if (filters.vocabs.length) activeFilters.push("Vocab");
   if (filters.phonetics.length) activeFilters.push("Phonetics");
@@ -107,10 +105,7 @@ export function applyFilters(
     allSubfamilies: unique(allLanguages.map((l) => l.subfamily)),
     allSubsubfamilies: unique(allLanguages.map((l) => l.subsubfamily)),
     allScripts: unique(allLanguages.map((l) => l.script)),
-    allJoshiRanges: unique(allLanguages.map((l) => l.joshi_class)).map((j) => [
-      j,
-      j,
-    ]),
+    allJoshiClasses: unique(allLanguages.map((l) => l.joshi_class)),
     allSyntaxes: unique(allLanguages.map((l) => l.syntax)),
     allVocabs: unique(allLanguages.map((l) => l.vocab)),
     allPhonetics: unique(allLanguages.map((l) => l.phonetics)),
