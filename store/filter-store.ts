@@ -6,6 +6,7 @@ interface FilterState {
   groupBy: string;
   pivotLanguage: string | null;
   selectedMethod: string | null;
+  topK: string | null;
 
   selectedModelA: string | null;
   selectedComponentA: string | null;
@@ -26,6 +27,7 @@ interface FilterState {
   setPivotLanguage: (language: string | null) => void;
 
   setSelectedMethod: (method: string | null) => void;
+  setTopK: (topK: string | null) => void;
 
   setSelectedModelA: (model: string | null) => void;
   setSelectedComponentA: (component: string | null) => void;
@@ -49,6 +51,7 @@ const defaultState = {
   pivotLanguage: null,
 
   selectedMethod: null as string | null,
+  topK: null as string | null,
 
   selectedModelA: null as string | null,
   selectedComponentA: null as string | null,
@@ -76,6 +79,7 @@ export const useFilterStore = create<FilterState>()(
 
       setSelectedMethod: (selectedMethod: string | null) =>
         set({ selectedMethod }),
+      setTopK: (topK: string | null) => set({ topK }),
       setSelectedModels: (selectedModels: string[]) => set({ selectedModels }),
       setSelectedComponents: (selectedComponents: string[]) =>
         set({ selectedComponents }),

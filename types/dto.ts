@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { id } from "zod/locales";
 
 export const ModelDtoSchema = z.object({
   id: z.string(),
@@ -28,6 +29,15 @@ export const LanguageDtoSchema = z.object({
 export const MethodDtoSchema = z.object({
   id: z.string(),
   label: z.string(),
+  required_top_k: z.union([
+    z.array(
+      z.object({
+        id: z.string(),
+        label: z.string(),
+      }),
+    ),
+    z.boolean(),
+  ]),
 });
 
 export const LayerHeatmapDtoSchema = z.object({
