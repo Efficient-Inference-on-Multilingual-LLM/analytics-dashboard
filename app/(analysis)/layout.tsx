@@ -12,7 +12,9 @@ const AnalysisLayout = ({
       <aside className="w-80 shrink-0 overflow-y-auto no-scrollbar border-r p-4">
         {filters}
       </aside>
-      <div className="flex-1 overflow-y-auto no-scrollbar min-h-0">{children}</div>
+      <div className="flex-1 overflow-y-auto no-scrollbar min-h-0 p-4">
+        {children}
+      </div>
     </div>
   );
 };
