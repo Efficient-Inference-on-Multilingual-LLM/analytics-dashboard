@@ -28,6 +28,7 @@ export const LanguageDtoSchema = z.object({
 export const MethodDtoSchema = z.object({
   id: z.string(),
   label: z.string(),
+  colorscale: z.string().nullable().optional(),
   required_top_k: z.union([
     z.array(
       z.object({
