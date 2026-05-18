@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { id } from "zod/locales";
 
 export const ModelDtoSchema = z.object({
   id: z.string(),
@@ -40,16 +39,28 @@ export const MethodDtoSchema = z.object({
   ]),
 });
 
+export const LanguageGroupDtoSchema = z.object({
+  name: z.string(),
+  color: z.string(),
+  languages: z.array(z.string()),
+});
+
 export const LayerHeatmapDtoSchema = z.object({
-  layer: z.number(),
+  layer: z.number().int(),
   languages: z.array(z.string()),
   matrix: z.array(z.array(z.number())),
   value_range: z.tuple([z.number(), z.number()]),
-  value: z.number(),
+});
+
+export const ClusterDtoSchema = z.object({
+  id: z.string(),
+  languages: z.array(z.string()),
 });
 
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
 export type LanguageDto = z.infer<typeof LanguageDtoSchema>;
+export type LanguageGroupDto = z.infer<typeof LanguageGroupDtoSchema>;
 export type LayerHeatmapDto = z.infer<typeof LayerHeatmapDtoSchema>;
+export type ClusterDto = z.infer<typeof ClusterDtoSchema>;
