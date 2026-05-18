@@ -10,11 +10,11 @@ interface FilterState {
 
   selectedModelA: string | null;
   selectedComponentA: string | null;
-  selectedLayerA: number | null;
+  selectedLayerA: number;
 
   selectedModelB: string | null;
   selectedComponentB: string | null;
-  selectedLayerB: number | null;
+  selectedLayerB: number;
 
   selectedModels: string[];
   selectedComponents: string[];
@@ -31,11 +31,11 @@ interface FilterState {
 
   setSelectedModelA: (model: string | null) => void;
   setSelectedComponentA: (component: string | null) => void;
-  setSelectedLayerA: (layer: number | null) => void;
+  setSelectedLayerA: (layer: number) => void;
 
   setSelectedModelB: (model: string | null) => void;
   setSelectedComponentB: (component: string | null) => void;
-  setSelectedLayerB: (layer: number | null) => void;
+  setSelectedLayerB: (layer: number) => void;
 
   setSelectedModels: (models: string[]) => void;
   setSelectedComponents: (components: string[]) => void;
@@ -55,11 +55,11 @@ const defaultState = {
 
   selectedModelA: null as string | null,
   selectedComponentA: null as string | null,
-  selectedLayerA: null as number | null,
+  selectedLayerA: 0 as number,
 
   selectedModelB: null as string | null,
   selectedComponentB: null as string | null,
-  selectedLayerB: null as number | null,
+  selectedLayerB: 0 as number,
 
   selectedModels: [] as string[],
   selectedComponents: [] as string[],
@@ -89,14 +89,12 @@ export const useFilterStore = create<FilterState>()(
         set({ selectedModelA }),
       setSelectedComponentA: (selectedComponentA: string | null) =>
         set({ selectedComponentA }),
-      setSelectedLayerA: (selectedLayerA: number | null) =>
-        set({ selectedLayerA }),
+      setSelectedLayerA: (selectedLayerA: number) => set({ selectedLayerA }),
       setSelectedModelB: (selectedModelB: string | null) =>
         set({ selectedModelB }),
       setSelectedComponentB: (selectedComponentB: string | null) =>
         set({ selectedComponentB }),
-      setSelectedLayerB: (selectedLayerB: number | null) =>
-        set({ selectedLayerB }),
+      setSelectedLayerB: (selectedLayerB: number) => set({ selectedLayerB }),
 
       setLanguageFilters: (filters: Partial<LanguageFilters>) =>
         set((state) => ({
