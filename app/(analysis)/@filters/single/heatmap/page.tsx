@@ -16,18 +16,18 @@ const HeatmapFilter = () => {
   const setLayer = useFilterStore((state) => state.setSelectedLayerA);
   const selected_model = useFilterStore((state) => state.selectedModelA);
   const { data } = useModels();
-  const model = data?.models.find((m) => m.label === selected_model);
+  const model = data?.models.find((m) => m.id === selected_model);
   const maxLayer = model?.layer_count ? model.layer_count - 1 : 0;
 
   return (
-    <Section title="Single Model">
+    <Section title="Single Heatmap Filter">
       <MethodSelector />
       <ModelSelector label="Model" type="A" />
       <GroupBy />
       <LinkageMethod />
       <LayerSlider
         title="Layer"
-        value={[layer || 0]}
+        value={[layer ?? 0]}
         max={maxLayer}
         step={1}
         onChange={(value) => setLayer(value[0])}
