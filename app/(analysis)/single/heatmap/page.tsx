@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import Section from "@/components/filter/section";
 import SingleLayerHeatmap from "@/components/graph/single-layer-heatmap";
 import SingleLayerDendogram from "@/components/graph/single-layer-dendogram";
+import ClusterList from "@/components/graph/cluster-list";
 import { useFilterStore } from "@/store/filter-store";
 import { useMethods } from "@/hooks/api/methods";
 import { useLanguageRegistry, useResultLanguages } from "@/hooks/api/languages";
@@ -120,6 +121,12 @@ const HeatmapPage = () => {
           />
         )}
       </div>
+      {dendogramData?.clusters && (
+        <ClusterList
+          clusters={dendogramData.clusters}
+          languageRegistry={languageRegistry}
+        />
+      )}
     </Section>
   );
 };
