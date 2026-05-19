@@ -9,16 +9,26 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import { GROUP_BY_OPTIONS } from "@/types/constant";
+import { useFilterStore } from "@/store/filter-store";
 
 const GroupBy = () => {
   type GroupByOption = (typeof GROUP_BY_OPTIONS)[number];
+  const groupBy = useFilterStore((state) => state.groupBy);
+  const setGroupBy = useFilterStore((state) => state.setGroupBy);
+
+  const groupByObj =
+    GROUP_BY_OPTIONS.find((option) => option.value === groupBy) ?? null;
+  const handleChange = (option: GroupByOption | null) => {
+    setGroupBy(option ? option.value : "family");
+  };
+
   return (
     <div>
       <Label className="text-sm px-1">Group By</Label>
       <Combobox
         items={GROUP_BY_OPTIONS}
-        itemToStringLabel={(item: GroupByOption) => item.label}
-        itemToStringValue={(item: GroupByOption) => item.value}
+        onValueChange={handleChange}
+        value={groupByObj}
       >
         <ComboboxInput placeholder="Select grouping" showClear />
         <ComboboxContent>

@@ -24,7 +24,7 @@ const LanguageFilters = ({ label }: LanguageFiltersProps) => {
       }
     : null;
 
-  const { data: languagesData, isLoading, error } = useResultLanguages(request);
+  const { data: languagesData } = useResultLanguages(request);
 
   const filters = useFilterStore((state) => state.languageFilters);
   const setFilters = useFilterStore((state) => state.setLanguageFilters);
