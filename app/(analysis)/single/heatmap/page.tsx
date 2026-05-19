@@ -6,13 +6,12 @@ import SingleLayerHeatmap from "@/components/graph/single-layer-heatmap";
 import Dendogram from "@/components/visualization/dendogram";
 import { useFilterStore } from "@/store/filter-store";
 import { useMethods } from "@/hooks/api/methods";
-import { useLanguageRegistry, useLanguages } from "@/hooks/api/languages";
+import { useLanguageRegistry, useResultLanguages } from "@/hooks/api/languages";
 import { applyFilters } from "@/lib/filter/language-filter";
 import { useHeatmap } from "@/hooks/api/heatmap";
 
 const HeatmapPage = () => {
   const { data: methods } = useMethods();
-  const { data: languages } = useLanguages();
 
   const selectedModel = useFilterStore((state) => state.selectedModelA);
   const selectedMethod = useFilterStore((state) => state.selectedMethod);
@@ -24,6 +23,18 @@ const HeatmapPage = () => {
   const groupBy = useFilterStore((state) => state.groupBy);
 
   const languageRegistry = useLanguageRegistry();
+
+  const languageReady =
+    !!selectedMethod && !!selectedModel && !!selectedComponent;
+  const languageRequest = languageReady
+    ? {
+        method_id: selectedMethod,
+        model_id: selectedModel,
+        component_id: selectedComponent,
+      }
+    : null;
+
+  const { data: languages } = useResultLanguages(languageRequest);
 
   const effectiveLanguages = useMemo(() => {
     if (!languages) return [];
