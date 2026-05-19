@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import type { Data, Layout, Config } from "plotly.js";
 
@@ -15,7 +15,7 @@ interface HeatmapProps {
   layout?: Partial<Layout>;
   showAnnotations?: boolean;
   annotationsDecimal?: number;
-  height?: number;
+  title?: string;
 }
 
 const Heatmap = ({
@@ -29,11 +29,38 @@ const Heatmap = ({
   layout = {},
   showAnnotations = false,
   annotationsDecimal = 2,
-  height = 400,
+  title,
 }: HeatmapProps) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(() => 0);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(([entry]) => {
+      const w = Math.floor(entry.contentRect.width);
+      if (w > 0) setContainerWidth(w);
+    });
+    obs.observe(el);
+    const initial = Math.floor(el.getBoundingClientRect().width);
+    if (initial > 0) setContainerWidth(initial);
+    return () => obs.disconnect();
+  }, []);
+
+  const numCols = x.length;
+  const numRows = y.length;
+
   const text = showAnnotations
     ? z.map((row) => row.map((value) => value.toFixed(annotationsDecimal)))
     : undefined;
+
+  const plotAreaWidth =
+    containerWidth - (layout.margin?.l ?? 60) - (layout.margin?.r ?? 40);
+  const cellSize = plotAreaWidth / numCols;
+  const plotAreaHeight = cellSize * numRows;
+  const height = Math.round(
+    plotAreaHeight + (layout.margin?.t ?? 40) + (layout.margin?.b ?? 60),
+  );
 
   const data: Data[] = [
     {
@@ -51,7 +78,14 @@ const Heatmap = ({
   ];
 
   const baseLayout: Partial<Layout> = {
-    height,
+    title: {
+      text: title,
+      font: { size: 16 },
+      xref: "paper",
+      x: 0.5,
+    },
+    width: containerWidth,
+    height: height,
     paper_bgcolor: "transparent",
     plot_bgcolor: "transparent",
     font: { color: "currentColor" },
@@ -62,17 +96,23 @@ const Heatmap = ({
   const config: Partial<Config> = {
     displaylogo: false,
     modeBarButtonsToRemove: ["lasso2d", "select2d"],
-    responsive: true,
+    responsive: false,
   };
 
   return (
-    <Plot
-      data={data}
-      layout={baseLayout}
-      config={config}
-      useResizeHandler
-      style={{ width: "100%", height: "100%" }}
-    />
+    <div ref={wrapperRef} style={{ width: "100%", overflow: "hidden" }}>
+      {containerWidth > 0 && (
+        <Plot
+          data={data}
+          layout={baseLayout}
+          config={config}
+          useResizeHandler={false}
+          style={{
+            overflow: "hidden",
+          }}
+        />
+      )}
+    </div>
   );
 };
 

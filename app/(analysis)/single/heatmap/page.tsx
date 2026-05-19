@@ -66,6 +66,14 @@ const HeatmapPage = () => {
   const layerData = data?.layers[0];
   const sortGroups = data?.sort_groups || [];
 
+  if (isLoading) {
+    return (
+      <Section title="Single Heatmap Analysis">
+        <div>Loading...</div>
+      </Section>
+    );
+  }
+
   return (
     <Section title="Single Heatmap Analysis">
       <div className="flex gap-3 items-center justify-between">
@@ -73,17 +81,16 @@ const HeatmapPage = () => {
           <SingleLayerHeatmap
             title={`${method?.label || selectedMethod} Heatmap`}
             languageRegistry={languageRegistry}
-            className="w-1/2"
+            className="w-2/3 min-w-0"
             data={layerData}
             colorScale={colorscale}
             showAxisLabels={true}
             sortGroups={sortGroups}
-            height={800}
           />
         )}
         <Dendogram
           title={`${method?.label || selectedMethod} Dendogram`}
-          className="w-1/2"
+          className="w-1/3 min-w-0"
         />
       </div>
     </Section>

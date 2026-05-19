@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
-import { cn } from "@/lib/utils";
-import dynamic from "next/dynamic";
 import { LayerHeatmapDto, LanguageGroupDto } from "@/types/dto";
 import Heatmap from "@/components/visualization/heatmap";
+import { cn } from "@/lib/utils";
 
 interface SingleLayerHeatmapProps {
   title: string;
@@ -11,7 +10,6 @@ interface SingleLayerHeatmapProps {
   languageRegistry?: Map<string, string>;
   className?: string;
   colorScale?: string;
-  height?: number;
   showAxisLabels?: boolean;
 }
 
@@ -22,7 +20,6 @@ const SingleLayerHeatmap = ({
   languageRegistry,
   data,
   colorScale = "Viridis",
-  height = 400,
   showAxisLabels = false,
 }: SingleLayerHeatmapProps) => {
   const languageToColor = useMemo(() => {
@@ -40,9 +37,6 @@ const SingleLayerHeatmap = ({
       data.languages.map((lang) => {
         const color = languageToColor.get(lang);
         const displayName = languageRegistry?.get(lang) || lang;
-        console.log(
-          `Label for ${lang}: displayName=${displayName}, color=${color}`,
-        );
         if (!color) return lang;
         return `<span style="color:${color}"><b>${displayName}</b></span>`;
       }),
@@ -50,20 +44,20 @@ const SingleLayerHeatmap = ({
   );
 
   return (
-    <>
+    <div className={cn("min-w-0 overflow-hidden", className)}>
       <Heatmap
+        title={title}
         z={data.matrix}
         x={data.languages}
         y={data.languages}
         zmin={data.value_range[0]}
         zmax={data.value_range[1]}
         colorScale={colorScale}
-        height={height}
         layout={{
           margin: {
             l: showAxisLabels ? 100 : 30,
             r: 40,
-            t: 40,
+            t: 60,
             b: showAxisLabels ? 100 : 30,
           },
           xaxis: {
@@ -74,6 +68,8 @@ const SingleLayerHeatmap = ({
             ticktext: coloredLabels,
             tickfont: { size: 8, family: "monospace" },
             automargin: true,
+            scaleanchor: "y",
+            scaleratio: 1,
           },
           yaxis: {
             autorange: "reversed",
@@ -86,7 +82,7 @@ const SingleLayerHeatmap = ({
           },
         }}
       />
-    </>
+    </div>
   );
 };
 
