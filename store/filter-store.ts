@@ -11,6 +11,8 @@ interface FilterState {
   selectedModelA: string | null;
   selectedComponentA: string | null;
   selectedLayerA: number;
+  selectedLinkageMethod: string;
+  selectedClusterCutoff: number;
 
   selectedModelB: string | null;
   selectedComponentB: string | null;
@@ -32,6 +34,8 @@ interface FilterState {
   setSelectedModelA: (model: string | null) => void;
   setSelectedComponentA: (component: string | null) => void;
   setSelectedLayerA: (layer: number) => void;
+  setSelectedLinkageMethod: (method: string) => void;
+  setSelectedClusterCutoff: (cutoff: number) => void;
 
   setSelectedModelB: (model: string | null) => void;
   setSelectedComponentB: (component: string | null) => void;
@@ -56,6 +60,8 @@ const defaultState = {
   selectedModelA: null as string | null,
   selectedComponentA: null as string | null,
   selectedLayerA: 0 as number,
+  selectedLinkageMethod: "average" as string,
+  selectedClusterCutoff: 50 as number,
 
   selectedModelB: null as string | null,
   selectedComponentB: null as string | null,
@@ -90,6 +96,10 @@ export const useFilterStore = create<FilterState>()(
       setSelectedComponentA: (selectedComponentA: string | null) =>
         set({ selectedComponentA }),
       setSelectedLayerA: (selectedLayerA: number) => set({ selectedLayerA }),
+      setSelectedLinkageMethod: (selectedLinkageMethod: string) =>
+        set({ selectedLinkageMethod }),
+      setSelectedClusterCutoff: (selectedClusterCutoff: number) =>
+        set({ selectedClusterCutoff }),
       setSelectedModelB: (selectedModelB: string | null) =>
         set({ selectedModelB }),
       setSelectedComponentB: (selectedComponentB: string | null) =>
