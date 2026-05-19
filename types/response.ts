@@ -41,7 +41,9 @@ export const DendogramResponseSchema = z.object({
   component_id: z.string(),
   layer: z.number().int(),
   languages: z.array(z.string()),
-  sort_by: z.string(),
+  linkage_matrices: z.array(z.array(z.number())),
+  leaf_order: z.array(z.number()),
+  max_distance: z.number(),
   clusters: z.array(ClusterDtoSchema),
 });
 
