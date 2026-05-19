@@ -26,5 +26,13 @@ export const DendogramRequestSchema = z.object({
   top_k: z.number().nullable().optional(),
 });
 
+export const LanguageResultRequestSchema = z.object({
+  method_id: z.string(),
+  model_id: z.string(),
+  component_id: z.string(),
+  top_k: z.number().nullable().optional(),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
+export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import MultiPicker from "../ui/multi-picker";
-import { useLanguages } from "@/hooks/api/languages";
+import { useLanguageRegistry, useResultLanguages } from "@/hooks/api/languages";
 import { useFilterStore } from "@/store/filter-store";
 import { applyFilters } from "@/lib/filter/language-filter";
 
@@ -9,16 +9,39 @@ interface LanguageFiltersProps {
 }
 
 const LanguageFilters = ({ label }: LanguageFiltersProps) => {
-  const { data } = useLanguages();
+  const method = useFilterStore((state) => state.selectedMethod);
+  const model = useFilterStore((state) => state.selectedModelA);
+  const component = useFilterStore((state) => state.selectedComponentA);
+
+  const languagesRegistry = useLanguageRegistry();
+
+  const ready = !!method && !!model && !!component;
+  const request = ready
+    ? {
+        method_id: method,
+        model_id: model,
+        component_id: component,
+      }
+    : null;
+
+  const { data: languagesData, isLoading, error } = useResultLanguages(request);
+
   const filters = useFilterStore((state) => state.languageFilters);
   const setFilters = useFilterStore((state) => state.setLanguageFilters);
   const resetFilters = useFilterStore((state) => state.resetLanguageFilters);
 
-  const allLanguages = data?.languages;
+  const allLanguages = languagesData?.languages;
   const appliedFilters = useMemo(
     () => applyFilters(allLanguages ?? [], filters),
     [allLanguages, filters],
   );
+  const languageOptions = useMemo(() => {
+    if (!languagesRegistry || !languagesData) return [];
+    return appliedFilters.allLanguages.map((lang) => ({
+      value: lang.code,
+      label: languagesRegistry.get(lang.code) ?? lang.code,
+    }));
+  }, [appliedFilters.allLanguages, languagesRegistry, languagesData]);
 
   const toOptions = (arr: string[]) =>
     arr.map((item) => ({ value: item, label: item }));
@@ -88,7 +111,7 @@ const LanguageFilters = ({ label }: LanguageFiltersProps) => {
       <MultiPicker
         label="Language"
         selected={filters.languages}
-        options={toOptions(appliedFilters.allLanguages?.map((l) => l.code) ?? [])}
+        options={languageOptions}
         onChange={(value) => setFilters({ languages: value })}
       />
       {appliedFilters.effectiveLanguages.length === 0 &&
