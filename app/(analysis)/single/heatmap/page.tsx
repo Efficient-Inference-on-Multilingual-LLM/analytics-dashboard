@@ -5,6 +5,7 @@ import Section from "@/components/filter/section";
 import SingleLayerHeatmap from "@/components/graph/single-layer-heatmap";
 import SingleLayerDendogram from "@/components/graph/single-layer-dendogram";
 import ClusterList from "@/components/graph/cluster-list";
+import SortGroupLegend from "@/components/graph/sort-group-legend";
 import { useFilterStore } from "@/store/filter-store";
 import { useMethods } from "@/hooks/api/methods";
 import { useLanguageRegistry, useResultLanguages } from "@/hooks/api/languages";
@@ -97,6 +98,9 @@ const HeatmapPage = () => {
 
   return (
     <Section title="Single Heatmap Analysis">
+      <div className="flex justify-end">
+        <SortGroupLegend groups={sortGroups} />
+      </div>
       <div className="flex items-start justify-between">
         {layerData && (
           <SingleLayerHeatmap
