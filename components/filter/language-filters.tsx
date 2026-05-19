@@ -88,7 +88,7 @@ const LanguageFilters = ({ label }: LanguageFiltersProps) => {
       <MultiPicker
         label="Language"
         selected={filters.languages}
-        options={toOptions(appliedFilters.effectiveLanguages)}
+        options={toOptions(appliedFilters.allLanguages?.map((l) => l.code) ?? [])}
         onChange={(value) => setFilters({ languages: value })}
       />
       {appliedFilters.effectiveLanguages.length === 0 &&
