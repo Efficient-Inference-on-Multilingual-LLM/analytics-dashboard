@@ -1,18 +1,28 @@
 import React, { useMemo } from "react";
 import MultiPicker from "../ui/multi-picker";
 import { useLanguageRegistry, useResultLanguages } from "@/hooks/api/languages";
-import { useFilterStore } from "@/store/filter-store";
 import { applyFilters } from "@/lib/filter/language-filter";
+import { LanguageFilters as LangFilters } from "@/lib/filter/language-filter";
 
 interface LanguageFiltersProps {
   label: string;
+  method: string | null;
+  model: string | null;
+  component: string | null;
+  filters: LangFilters;
+  onChange: (patch: Partial<LangFilters>) => void;
+  onReset: () => void;
 }
 
-const LanguageFilters = ({ label }: LanguageFiltersProps) => {
-  const method = useFilterStore((state) => state.selectedMethod);
-  const model = useFilterStore((state) => state.selectedModelA);
-  const component = useFilterStore((state) => state.selectedComponentA);
-
+const LanguageFilters = ({
+  label,
+  method,
+  model,
+  component,
+  filters,
+  onChange,
+  onReset,
+}: LanguageFiltersProps) => {
   const languagesRegistry = useLanguageRegistry();
 
   const ready = !!method && !!model && !!component;
@@ -25,10 +35,6 @@ const LanguageFilters = ({ label }: LanguageFiltersProps) => {
     : null;
 
   const { data: languagesData } = useResultLanguages(request);
-
-  const filters = useFilterStore((state) => state.languageFilters);
-  const setFilters = useFilterStore((state) => state.setLanguageFilters);
-  const resetFilters = useFilterStore((state) => state.resetLanguageFilters);
 
   const allLanguages = languagesData?.languages;
   const appliedFilters = useMemo(
@@ -55,25 +61,25 @@ const LanguageFilters = ({ label }: LanguageFiltersProps) => {
         label="Region"
         selected={filters.regions}
         options={toOptions(appliedFilters.allRegions)}
-        onChange={(value) => setFilters({ regions: value })}
+        onChange={(value) => onChange({ regions: value })}
       />
       <MultiPicker
         label="Family"
         selected={filters.families}
         options={toOptions(appliedFilters.allFamilies)}
-        onChange={(value) => setFilters({ families: value })}
+        onChange={(value) => onChange({ families: value })}
       />
       <MultiPicker
         label="Sub family"
         selected={filters.subfamilies}
         options={toOptions(appliedFilters.allSubfamilies)}
-        onChange={(value) => setFilters({ subfamilies: value })}
+        onChange={(value) => onChange({ subfamilies: value })}
       />
       <MultiPicker
         label="Sub-sub family"
         selected={filters.subsubfamilies}
         options={toOptions(appliedFilters.allSubsubfamilies)}
-        onChange={(value) => setFilters({ subsubfamilies: value })}
+        onChange={(value) => onChange({ subsubfamilies: value })}
       />
       <MultiPicker
         label="Joshi Class"
@@ -82,37 +88,37 @@ const LanguageFilters = ({ label }: LanguageFiltersProps) => {
           value: String(j),
           label: String(j),
         }))}
-        onChange={(value) => setFilters({ joshiClasses: value.map(Number) })}
+        onChange={(value) => onChange({ joshiClasses: value.map(Number) })}
       />
       <MultiPicker
         label="Script"
         selected={filters.scripts}
         options={toOptions(appliedFilters.allScripts)}
-        onChange={(value) => setFilters({ scripts: value })}
+        onChange={(value) => onChange({ scripts: value })}
       />
       <MultiPicker
         label="Syntax"
         selected={filters.syntaxes}
         options={toOptions(appliedFilters.allSyntaxes)}
-        onChange={(value) => setFilters({ syntaxes: value })}
+        onChange={(value) => onChange({ syntaxes: value })}
       />
       <MultiPicker
         label="Vocab"
         selected={filters.vocabs}
         options={toOptions(appliedFilters.allVocabs)}
-        onChange={(value) => setFilters({ vocabs: value })}
+        onChange={(value) => onChange({ vocabs: value })}
       />
       <MultiPicker
         label="Phonetics"
         selected={filters.phonetics}
         options={toOptions(appliedFilters.allPhonetics)}
-        onChange={(value) => setFilters({ phonetics: value })}
+        onChange={(value) => onChange({ phonetics: value })}
       />
       <MultiPicker
         label="Language"
         selected={filters.languages}
         options={languageOptions}
-        onChange={(value) => setFilters({ languages: value })}
+        onChange={(value) => onChange({ languages: value })}
       />
       {appliedFilters.effectiveLanguages.length === 0 &&
       appliedFilters.activeFilterCount > 0 ? (
@@ -133,7 +139,7 @@ const LanguageFilters = ({ label }: LanguageFiltersProps) => {
           </span>
           <button
             className="text-xs text-primary hover:underline"
-            onClick={resetFilters}
+            onClick={onReset}
           >
             Reset
           </button>

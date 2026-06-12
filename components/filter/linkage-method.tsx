@@ -12,23 +12,28 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import LayerSlider from "./layer-slider";
-import { useFilterStore } from "@/store/filter-store";
 
-const LinkageMethod = () => {
+type LinkageMethodValue = (typeof LINKAGE_METHODS)[number]["value"];
+
+interface LinkageMethodProps {
+  value: LinkageMethodValue;
+  clusterCutoff: number | null;
+  onChange: (value: LinkageMethodValue) => void;
+  onClusterCutoffChange: (value: number) => void;
+}
+
+const LinkageMethod = ({
+  value,
+  clusterCutoff,
+  onChange,
+  onClusterCutoffChange,
+}: LinkageMethodProps) => {
   type LinkageMethodOption = (typeof LINKAGE_METHODS)[number];
-  const linkageMethod = useFilterStore((state) => state.selectedLinkageMethod);
-  const setLinkageMethod = useFilterStore(
-    (state) => state.setSelectedLinkageMethod,
-  );
-  const clusterCutoff = useFilterStore((state) => state.selectedClusterCutoff);
-  const setClusterCutoff = useFilterStore(
-    (state) => state.setSelectedClusterCutoff,
-  );
 
   const linkageMethodObj =
-    LINKAGE_METHODS.find((option) => option.value === linkageMethod) ?? null;
+    LINKAGE_METHODS.find((option) => option.value === value) ?? null;
   const handleLinkageMethodChange = (option: LinkageMethodOption | null) => {
-    setLinkageMethod(option ? option.value : "average");
+    onChange(option ? option.value : "average");
   };
 
   return (
@@ -59,7 +64,7 @@ const LinkageMethod = () => {
           value={[clusterCutoff ?? 50]}
           max={100}
           step={1}
-          onChange={(value) => setClusterCutoff(value[0])}
+          onChange={(value) => onClusterCutoffChange(value[0])}
           showLabel
           showTooltip
           formatValue={(v) => `${v}%`}

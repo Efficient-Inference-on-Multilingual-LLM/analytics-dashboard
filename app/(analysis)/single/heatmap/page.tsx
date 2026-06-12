@@ -6,40 +6,47 @@ import SingleLayerHeatmap from "@/components/graph/single-layer-heatmap";
 import SingleLayerDendogram from "@/components/graph/single-layer-dendogram";
 import ClusterList from "@/components/graph/cluster-list";
 import SortGroupLegend from "@/components/graph/sort-group-legend";
-import { useFilterStore } from "@/store/filter-store";
 import { useMethods } from "@/hooks/api/methods";
 import { useLanguageRegistry, useResultLanguages } from "@/hooks/api/languages";
 import { applyFilters } from "@/lib/filter/language-filter";
 import { useHeatmap } from "@/hooks/api/heatmap";
 import { useDendogram } from "@/hooks/api/dendogram";
+import { useHeatmapUrlState } from "@/hooks/url-state/states";
 
 const HeatmapPage = () => {
   const { data: methods } = useMethods();
-
-  const selectedModel = useFilterStore((state) => state.selectedModelA);
-  const selectedMethod = useFilterStore((state) => state.selectedMethod);
-  const selectedTopK = useFilterStore((state) => state.topK);
-  const selectedComponent = useFilterStore((state) => state.selectedComponentA);
-  const layer = useFilterStore((state) => state.selectedLayerA);
-  const languageFilters = useFilterStore((state) => state.languageFilters);
-  const method = methods?.methods.find((m) => m.id === selectedMethod);
-  const groupBy = useFilterStore((state) => state.groupBy);
-  const linkageMethod = useFilterStore((state) => state.selectedLinkageMethod);
-  const clusterCutoff = useFilterStore((state) => state.selectedClusterCutoff);
-
+  const [urlState] = useHeatmapUrlState();
   const languageRegistry = useLanguageRegistry();
 
+  const method = methods?.methods.find((m) => m.id === urlState.method);
+  const colorScale = method?.colorscale || "Viridis";
+
   const languageReady =
-    !!selectedMethod && !!selectedModel && !!selectedComponent;
+    !!urlState.method && !!urlState.model && !!urlState.component;
   const languageRequest = languageReady
     ? {
-        method_id: selectedMethod,
-        model_id: selectedModel,
-        component_id: selectedComponent,
+        method_id: urlState.method as string,
+        model_id: urlState.model as string,
+        component_id: urlState.component as string,
       }
     : null;
-
   const { data: languages } = useResultLanguages(languageRequest);
+
+  const languageFilters = useMemo(
+    () => ({
+      regions: urlState.regions,
+      families: urlState.families,
+      subfamilies: urlState.subfamilies,
+      subsubfamilies: urlState.subsubfamilies,
+      scripts: urlState.scripts,
+      syntaxes: urlState.syntaxes,
+      vocabs: urlState.vocabs,
+      phonetics: urlState.phonetics,
+      joshiClasses: urlState.joshiClasses,
+      languages: urlState.languages,
+    }),
+    [urlState],
+  );
 
   const effectiveLanguages = useMemo(() => {
     if (!languages) return [];
@@ -47,23 +54,20 @@ const HeatmapPage = () => {
       .effectiveLanguages;
   }, [languageFilters, languages]);
 
-  const colorscale =
-    methods?.methods.find((m) => m.id === selectedMethod)?.colorscale ||
-    "Viridis";
   const heatmapReady =
-    !!selectedModel &&
-    !!selectedMethod &&
-    !!selectedComponent &&
+    !!urlState.method &&
+    !!urlState.model &&
+    !!urlState.component &&
     effectiveLanguages.length > 0;
   const request = heatmapReady
     ? {
-        method_id: selectedMethod,
-        model_id: selectedModel,
-        component_id: selectedComponent,
-        layer_indices: layer != null ? [layer] : null,
+        method_id: urlState.method as string,
+        model_id: urlState.model as string,
+        component_id: urlState.component as string,
+        layer_indices: urlState.layer != null ? [urlState.layer] : null,
         languages: effectiveLanguages,
-        top_k: selectedTopK ? Number(selectedTopK) : null,
-        sort_by: groupBy,
+        top_k: urlState.top_k ? Number(urlState.top_k) : null,
+        sort_by: urlState.group_by,
       }
     : null;
 
@@ -72,17 +76,18 @@ const HeatmapPage = () => {
   const layerData = heatmapData?.layers[0];
   const sortGroups = heatmapData?.sort_groups || [];
 
-  const dendogramReady = heatmapReady && !!linkageMethod;
+  const dendogramReady = heatmapReady && !!urlState.linkage;
   const dendogramRequest = dendogramReady
     ? {
-        method_id: selectedMethod!,
-        model_id: selectedModel!,
-        component_id: selectedComponent!,
-        layer: layer!,
+        method_id: urlState.method as string,
+        model_id: urlState.model as string,
+        component_id: urlState.component as string,
+        layer: urlState.layer as number,
         languages: effectiveLanguages,
-        sort_by: groupBy,
-        linkage_method: linkageMethod,
-        cluster_cutoff: clusterCutoff > 0 ? clusterCutoff / 100 : 0,
+        sort_by: urlState.group_by,
+        linkage_method: urlState.linkage as string,
+        cluster_cutoff:
+          urlState.cluster_cutoff > 0 ? urlState.cluster_cutoff / 100 : 0,
       }
     : null;
   const { data: dendogramData, isLoading: isDendogramLoading } =
@@ -104,18 +109,18 @@ const HeatmapPage = () => {
       <div className="flex items-start justify-between">
         {layerData && (
           <SingleLayerHeatmap
-            title={`${method?.label || selectedMethod} Heatmap`}
+            title={`${method?.label || urlState.method} Heatmap`}
             languageRegistry={languageRegistry}
             className="w-2/3 min-w-0"
             data={layerData}
-            colorScale={colorscale}
+            colorScale={colorScale}
             showAxisLabels={true}
             sortGroups={sortGroups}
           />
         )}
         {dendogramData && (
           <SingleLayerDendogram
-            title={`${method?.label || selectedMethod} Dendogram`}
+            title={`${method?.label || urlState.method} Dendogram`}
             className="w-1/3 min-w-0"
             data={dendogramData}
             sortGroups={sortGroups}

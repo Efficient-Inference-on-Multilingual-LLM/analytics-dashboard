@@ -9,17 +9,21 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import { GROUP_BY_OPTIONS } from "@/types/constant";
-import { useFilterStore } from "@/store/filter-store";
 
-const GroupBy = () => {
+type GroupByValue = (typeof GROUP_BY_OPTIONS)[number]["value"];
+
+interface GroupByProps {
+  value: GroupByValue;
+  onChange: (value: GroupByValue) => void;
+}
+
+const GroupBy = ({ value, onChange }: GroupByProps) => {
   type GroupByOption = (typeof GROUP_BY_OPTIONS)[number];
-  const groupBy = useFilterStore((state) => state.groupBy);
-  const setGroupBy = useFilterStore((state) => state.setGroupBy);
 
   const groupByObj =
-    GROUP_BY_OPTIONS.find((option) => option.value === groupBy) ?? null;
+    GROUP_BY_OPTIONS.find((option) => option.value === value) ?? null;
   const handleChange = (option: GroupByOption | null) => {
-    setGroupBy(option ? option.value : "family");
+    onChange(option ? option.value : "family");
   };
 
   return (
