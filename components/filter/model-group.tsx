@@ -11,32 +11,27 @@ import {
   ComboboxList,
 } from "../ui/combobox";
 import { useModels, useComponents } from "@/hooks/api/models";
-import { useFilterStore } from "@/store/filter-store";
 import { ModelDto } from "@/types/dto";
 import { ComponentDto } from "@/types/dto";
 
 interface ModelGroupProps {
   label: string;
-  type: "A" | "B";
+  selectedModel: string | null;
+  setSelectedModel: (model: string | null) => void;
+  selectedComponent: string | null;
+  setSelectedComponent: (component: string | null) => void;
 }
 
-const ModelGroup = ({ label, type }: ModelGroupProps) => {
+const ModelGroup = ({
+  label,
+  selectedModel,
+  setSelectedModel,
+  selectedComponent,
+  setSelectedComponent,
+}: ModelGroupProps) => {
   const { data: modelsData } = useModels();
   const { data: componentsData } = useComponents();
 
-  const selectedModel = useFilterStore((state) =>
-    type === "A" ? state.selectedModelA : state.selectedModelB,
-  );
-  const selectedComponent = useFilterStore((state) =>
-    type === "A" ? state.selectedComponentA : state.selectedComponentB,
-  );
-
-  const setSelectedModel = useFilterStore((state) =>
-    type === "A" ? state.setSelectedModelA : state.setSelectedModelB,
-  );
-  const setSelectedComponent = useFilterStore((state) =>
-    type === "A" ? state.setSelectedComponentA : state.setSelectedComponentB,
-  );
   const allModels = modelsData?.models ?? [];
   const allComponents = componentsData?.components ?? [];
 

@@ -8,25 +8,32 @@ import {
   ComboboxList,
 } from "../ui/combobox";
 import { Label } from "../ui/label";
-import { useFilterStore } from "@/store/filter-store";
 import { useMethods } from "@/hooks/api/methods";
 import { MethodDto } from "@/types/dto";
 
-const MethodSelector = () => {
+interface MethodSelectorProps {
+  selectedMethod: string | null;
+  onMethodChange: (method: string | null) => void;
+  selectedTopK: string | null;
+  onTopKChange: (topK: string | null) => void;
+}
+
+const MethodSelector = ({
+  selectedMethod,
+  onMethodChange,
+  selectedTopK,
+  onTopKChange,
+}: MethodSelectorProps) => {
   const { data: methodsResponse } = useMethods();
   const methods = methodsResponse?.methods || [];
-  const selectedMethod = useFilterStore((state) => state.selectedMethod);
-  const setSelectedMethod = useFilterStore((state) => state.setSelectedMethod);
 
   const selectedMethodObj =
     methods.find((method) => method.id === selectedMethod) ?? null;
   const handleChange = (method: MethodDto | null) => {
-    setSelectedMethod(method ? method.id : null);
+    onMethodChange(method ? method.id : null);
   };
 
   const topK = selectedMethodObj?.required_top_k;
-  const selectedTopK = useFilterStore((state) => state.topK);
-  const setSelectedTopK = useFilterStore((state) => state.setTopK);
 
   const selectedTopKObj =
     topK && typeof topK !== "boolean"
@@ -35,7 +42,7 @@ const MethodSelector = () => {
         ) ?? null)
       : null;
   const handleTopKChange = (k: { id: string; label: string } | null) => {
-    setSelectedTopK(k ? k.id : null);
+    onTopKChange(k ? k.id : null);
   };
 
   return (
