@@ -15,6 +15,8 @@ import {
 } from "@/lib/filter/language-filter";
 import { useHeatmapUrlState } from "@/hooks/url-state/states";
 
+export const dynamic = "force-dynamic";
+
 const HeatmapFilter = () => {
   const [urlState, setUrlState] = useHeatmapUrlState();
   const { data } = useModels();
