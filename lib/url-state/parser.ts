@@ -4,7 +4,7 @@ import {
   createParser,
   parseAsStringLiteral,
   parseAsInteger,
-} from "nuqs";
+} from "nuqs/server";
 import { encodeLangs, decodeLangs } from "./lang-codec";
 import { GROUP_BY_OPTIONS, LINKAGE_METHODS } from "@/types/constant";
 

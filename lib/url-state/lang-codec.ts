@@ -83,30 +83,57 @@ export const CANON_V1 = [
 const VERSION = "1";
 const CANON = CANON_V1;
 
+const B32_ALPHABET = "abcdefghjkmnpqrstuvwxyz234567";
+
+function bytesToBase32(bytes: Uint8Array): string {
+  let bits = 0,
+    value = 0,
+    output = "";
+  for (const byte of bytes) {
+    value = (value << 8) | byte;
+    bits += 8;
+    while (bits >= 5) {
+      output += B32_ALPHABET[(value >>> (bits - 5)) & 31];
+      bits -= 5;
+    }
+  }
+  if (bits > 0) {
+    output += B32_ALPHABET[(value << (5 - bits)) & 31];
+  }
+  return output;
+}
+
+function base32ToBytes(base32: string): Uint8Array {
+  const bytes: number[] = [];
+  let bits = 0,
+    value = 0;
+  for (const char of base32) {
+    const index = B32_ALPHABET.indexOf(char);
+    if (index === -1) continue;
+    value = (value << 5) | index;
+    bits += 5;
+    if (bits >= 8) {
+      bytes.push((value >>> (bits - 8)) & 255);
+      bits -= 8;
+    }
+  }
+  return new Uint8Array(bytes);
+}
+
 export function encodeLangs(selected: string[]): string {
   const set = new Set(selected);
   const bytes = new Uint8Array(Math.ceil(CANON.length / 8));
   CANON.forEach((code, i) => {
-    if (set.has(code)) {
-      bytes[i >> 3] |= 1 << (i & 7);
-    }
+    if (set.has(code)) bytes[i >> 3] |= 1 << (i & 7);
   });
-  let bin = "";
-  bytes.forEach((b) => {
-    bin += String.fromCharCode(b);
-  });
-  return (
-    `${VERSION}.` +
-    btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
-  );
+  return `${VERSION}.${bytesToBase32(bytes)}`;
 }
 
 export function decodeLangs(encoded: string): string[] {
-  const [version, b64] = encoded.split(".");
-  if (version !== VERSION || !b64) return [];
+  const [version, token] = encoded.split(".");
+  if (version !== VERSION || !token) return [];
   try {
-    const bin = atob(b64.replace(/-/g, "+").replace(/_/g, "/"));
-    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    const bytes = base32ToBytes(token);
     return CANON.filter((_, i) => bytes[i >> 3] & (1 << (i & 7)));
   } catch {
     return [];
