@@ -13,6 +13,8 @@ import { useHeatmap } from "@/hooks/api/heatmap";
 import { useDendogram } from "@/hooks/api/dendogram";
 import { useHeatmapUrlState } from "@/hooks/url-state/states";
 
+export const dynamic = "force-dynamic";
+
 const HeatmapPage = () => {
   const { data: methods } = useMethods();
   const [urlState] = useHeatmapUrlState();
