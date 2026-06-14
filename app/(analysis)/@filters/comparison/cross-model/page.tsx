@@ -17,13 +17,15 @@ import { AGGREGATION_OPTIONS } from "@/types/constant";
 import MultiModelGroup from "@/components/filter/multimodel-group";
 import LayerSlider from "@/components/filter/layer-slider";
 import PivotLanguage from "@/components/filter/pivot-language";
+import LanguageFilters from "@/components/filter/language-filters";
 
 const CrossModelFilters = () => {
   type AggregationOption = (typeof AGGREGATION_OPTIONS)[number];
 
   return (
     <Section title="Cross-Model Filters">
-      <MethodSelector />
+        In Progress
+      {/* <MethodSelector />
       <MultiModelGroup label="Models & Components" />
       <GroupBy />
 
@@ -38,7 +40,7 @@ const CrossModelFilters = () => {
           <ComboboxContent>
             <ComboboxEmpty>No items found.</ComboboxEmpty>
             <ComboboxList>
-              {(item) => (
+              {(item: AggregationOption) => (
                 <ComboboxItem key={item.value} value={item}>
                   {item.label}
                 </ComboboxItem>
@@ -61,6 +63,8 @@ const CrossModelFilters = () => {
       />
 
       <PivotLanguage />
+
+      <LanguageFilters label="Language" /> */}
     </Section>
   );
 };
