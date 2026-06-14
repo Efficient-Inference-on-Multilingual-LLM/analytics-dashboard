@@ -102,7 +102,7 @@ const HeatmapPage = () => {
   }
 
   return (
-    <Section title="Single Heatmap Analysis">
+    <Section title="Single Heatmap Analysis" pageKey="heatmap" state={urlState}>
       <div className="flex justify-end">
         <SortGroupLegend groups={sortGroups} />
       </div>
