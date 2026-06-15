@@ -47,9 +47,24 @@ export const DendogramResponseSchema = z.object({
   clusters: z.array(ClusterDtoSchema),
 });
 
+export const TrajectoryLanguageResponseSchema = z.object({
+  intersection: z.array(z.string()),
+  union: z.array(z.string()),
+  per_model: z.record(z.string(), z.array(z.string())),
+  missing: z.array(
+    z.object({
+      model_id: z.string(),
+      component_id: z.string(),
+    }),
+  ),
+});
+
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
 export type MethodResponse = z.infer<typeof MethodResponseSchema>;
 export type ComponentResponse = z.infer<typeof ComponentResponseSchema>;
 export type LanguageResponse = z.infer<typeof LanguageResponseSchema>;
 export type LayerHeatmapResponse = z.infer<typeof LayerHeatmapResponseSchema>;
 export type DendogramResponse = z.infer<typeof DendogramResponseSchema>;
+export type TrajectoryLanguageResponse = z.infer<
+  typeof TrajectoryLanguageResponseSchema
+>;

@@ -24,7 +24,7 @@ const MultiModelGroup = ({
   const { data: methodsData } = useMethods();
   const { data: componentsData } = useComponents();
 
-  const allModels = modelsData?.models.map((model) => model.label) || [];
+  const allModels = modelsData?.models || [];
 
   const selectedMethodObj =
     methodsData?.methods.find((method) => method.id === methodId) ?? null;
@@ -32,9 +32,7 @@ const MultiModelGroup = ({
     (selectedMethodObj?.components ?? []).map((component) => component.id),
   );
   const allComponents =
-    componentsData?.components
-      .filter((comp) => allowed.has(comp.id))
-      .map((comp) => comp.label) || [];
+    componentsData?.components.filter((comp) => allowed.has(comp.id)) || [];
 
   return (
     <div className="rounded-lg border border-border p-3 flex flex-col gap-3">
@@ -42,7 +40,10 @@ const MultiModelGroup = ({
         {label}
       </div>
       <MultiSelect
-        frameworks={allModels.map((model) => ({ value: model, label: model }))}
+        frameworks={allModels.map((model) => ({
+          value: model.id,
+          label: model.label,
+        }))}
         label="Models to Compare"
         placeholder="Select models to compare"
         onValueChange={(items) =>
@@ -51,7 +52,10 @@ const MultiModelGroup = ({
         value={selectedModels}
       />
       <MultiSelect
-        frameworks={allComponents.map((comp) => ({ value: comp, label: comp }))}
+        frameworks={allComponents.map((comp) => ({
+          value: comp.id,
+          label: comp.label,
+        }))}
         label="Components to Compare"
         placeholder="Select components to compare"
         onValueChange={(items) =>

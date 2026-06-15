@@ -33,6 +33,16 @@ export const LanguageResultRequestSchema = z.object({
   top_k: z.number().nullable().optional(),
 });
 
+export const TrajectoryLanguageRequestSchema = z.object({
+  method: z.string(),
+  model_ids: z.array(z.string()),
+  component_ids: z.array(z.string()),
+  top_k: z.number().nullable().optional(),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
 export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;
+export type TrajectoryLanguageRequest = z.infer<
+  typeof TrajectoryLanguageRequestSchema
+>;

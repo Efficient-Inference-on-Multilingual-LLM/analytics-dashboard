@@ -74,8 +74,9 @@ export const crossModelParser = {
   components: strArray(),
   top_k: parseAsString,
   group_by: parseAsStringLiteral(groupByValues).withDefault("family"),
-  aggregation: parseAsStringLiteral(aggregationValues).withDefault("mean"),
+  aggregation: parseAsStringLiteral(aggregationValues).withDefault("all"),
   layer_percentage: parseAsInteger.withDefault(0),
+  pivot_language: parseAsString,
 
   s: parseAsString,
   c: parseAsString,
