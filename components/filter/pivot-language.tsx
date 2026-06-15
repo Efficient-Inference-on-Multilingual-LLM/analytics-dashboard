@@ -12,11 +12,11 @@ import { useTrajectoryLanguages } from "@/hooks/api/trajectory";
 import { useLanguages } from "@/hooks/api/languages";
 
 interface PivotLanguageProps {
-  method: string;
+  method: string | null;
   modelIds: string[];
   componentIds: string[];
   topK?: string | null;
-  value?: string;
+  value?: string | null;
   onChange?: (value: string | null) => void;
 }
 
@@ -61,15 +61,21 @@ const PivotLanguage = ({
   const selected = options.find((o) => o.id === value) ?? null;
 
   useEffect(() => {
+    if (options.length > 0 && !value && onChange) {
+      onChange(options[0].id);
+    }
+  }, [options, value, onChange]);
+
+  useEffect(() => {
     if (
       trajectoryLanguages &&
       value &&
       !trajectoryLanguages.intersection.includes(value) &&
       onChange
     ) {
-      onChange(null);
+      onChange(options[0]?.id ?? null);
     }
-  }, [trajectoryLanguages, value, onChange]);
+  }, [trajectoryLanguages, value, onChange, options]);
 
   return (
     <div>

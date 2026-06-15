@@ -4,6 +4,7 @@ import {
   createParser,
   parseAsStringLiteral,
   parseAsInteger,
+  parseAsFloat,
 } from "nuqs/server";
 import { encodeLangs, decodeLangs } from "./lang-codec";
 import {
@@ -75,7 +76,7 @@ export const crossModelParser = {
   top_k: parseAsString,
   group_by: parseAsStringLiteral(groupByValues).withDefault("family"),
   aggregation: parseAsStringLiteral(aggregationValues).withDefault("all"),
-  layer_percentage: parseAsInteger.withDefault(0),
+  depth_range: parseAsArrayOf(parseAsFloat).withDefault([0, 100]),
   pivot_language: parseAsString,
   regions: strArray(),
   families: strArray(),

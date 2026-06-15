@@ -24,6 +24,7 @@ import {
 } from "@/lib/filter/language-filter";
 import { useCrossModelUrlState } from "@/hooks/url-state/states";
 import { useCrossModelTrajectoryLanguages } from "@/hooks/api/trajectory";
+import { cn } from "@/lib/utils";
 
 const CrossModelFilters = () => {
   const [crossModelState, setCrossModelState] = useCrossModelUrlState();
@@ -37,6 +38,8 @@ const CrossModelFilters = () => {
     setCrossModelState({
       ...crossModelState,
       aggregation: option ? option.value : null,
+      pivot_language:
+        option?.value === "mean" ? crossModelState.pivot_language : null,
     });
   };
 
@@ -55,6 +58,7 @@ const CrossModelFilters = () => {
     : null;
 
   const languagePool = useCrossModelTrajectoryLanguages(languageRequest);
+  const pivotVisible = crossModelState.aggregation === "mean";
 
   const langFilters: LangFilters = useMemo(
     () => ({
@@ -129,26 +133,42 @@ const CrossModelFilters = () => {
         </Combobox>
       </div>
 
-      <PivotLanguage
-        method={(crossModelState.method ?? undefined) as string}
-        modelIds={crossModelState.models ?? []}
-        componentIds={crossModelState.components ?? []}
-        topK={crossModelState.top_k ?? null}
-        value={crossModelState.pivot_language ?? undefined}
-        onChange={(pivot_language) =>
-          setCrossModelState({ ...crossModelState, pivot_language })
-        }
-      />
+      <div
+        className={cn(
+          "relative transition-[height] duration-300",
+          pivotVisible ? "h-13" : "h-0 overflow-hidden",
+        )}
+      >
+        <div
+          className={cn(
+            "absolute inset-0 transition-opacity duration-200",
+            pivotVisible
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none",
+          )}
+        >
+          <PivotLanguage
+            method={crossModelState.method ?? null}
+            modelIds={crossModelState.models ?? []}
+            componentIds={crossModelState.components ?? []}
+            topK={crossModelState.top_k ?? null}
+            value={crossModelState.pivot_language ?? null}
+            onChange={(pivot_language) =>
+              setCrossModelState({ ...crossModelState, pivot_language })
+            }
+          />
+        </div>
+      </div>
 
       <LayerSlider
-        title="Layer Percentage"
-        value={[crossModelState.layer_percentage ?? 0]}
+        title="Depth Range"
+        value={crossModelState.depth_range ?? [0, 100]}
         max={100}
         step={1}
         onChange={(value) =>
           setCrossModelState({
             ...crossModelState,
-            layer_percentage: value[0],
+            depth_range: value,
           })
         }
         showLabel

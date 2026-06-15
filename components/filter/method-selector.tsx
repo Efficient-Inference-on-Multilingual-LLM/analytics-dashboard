@@ -35,6 +35,7 @@ const MethodSelector = ({
   };
 
   const topK = selectedMethodObj?.required_top_k;
+  const topKVisible = typeof topK === "object";
 
   const selectedTopKObj =
     topK && typeof topK !== "boolean"
@@ -48,32 +49,36 @@ const MethodSelector = ({
 
   return (
     <div className="flex flex-col w-full gap-3">
-      <div className="relative h-29">
-        <div className="absolute top-0 left-0 right-0 flex flex-col">
-          <Label className="text-sm px-1">Method</Label>
-          <Combobox
-            items={methods}
-            value={selectedMethodObj}
-            onValueChange={handleChange}
-          >
-            <ComboboxInput placeholder="Select a method" showClear />
-            <ComboboxContent>
-              <ComboboxEmpty>No items found.</ComboboxEmpty>
-              <ComboboxList>
-                {(item) => (
-                  <ComboboxItem key={item.id} value={item}>
-                    {item.label}
-                  </ComboboxItem>
-                )}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
-        </div>
+      <div className="flex flex-col">
+        <Label className="text-sm px-1">Method</Label>
+        <Combobox
+          items={methods}
+          value={selectedMethodObj}
+          onValueChange={handleChange}
+        >
+          <ComboboxInput placeholder="Select a method" showClear />
+          <ComboboxContent>
+            <ComboboxEmpty>No items found.</ComboboxEmpty>
+            <ComboboxList>
+              {(item) => (
+                <ComboboxItem key={item.id} value={item}>
+                  {item.label}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
+      </div>
+      <div
+        className={cn(
+          "relative transition-[height] duration-300",
+          topKVisible ? "h-13" : "h-0 overflow-hidden",
+        )}
+      >
         <div
           className={cn(
-            "absolute bottom-0 left-0 right-0 flex flex-col",
-            "transition-opacity duration-300",
-            selectedMethod === "lape" && typeof topK === "object"
+            "absolute inset-0 transition-opacity duration-200",
+            topKVisible
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none",
           )}
