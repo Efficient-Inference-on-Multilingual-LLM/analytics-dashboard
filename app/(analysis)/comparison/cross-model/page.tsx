@@ -183,7 +183,7 @@ const CrossModelPage = () => {
             })}
           </div>
 
-          {trajectory.data.length > 0 && (
+          {trajectory.data.length > 0 && modelIds.length > 1 && (
             <div className="rounded-lg border border-border p-4">
               <CombinedChart
                 data={trajectory.data}
