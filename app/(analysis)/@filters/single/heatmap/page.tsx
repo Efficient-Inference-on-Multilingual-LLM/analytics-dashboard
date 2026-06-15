@@ -51,6 +51,7 @@ const HeatmapFilter = () => {
       />
       <ModelSelector
         label="Model"
+        methodId={urlState.method ?? null}
         selectedModel={urlState.model ?? null}
         setSelectedModel={(model) => setUrlState({ ...urlState, model: model })}
         selectedComponent={urlState.component ?? null}
