@@ -39,6 +39,7 @@ export const MethodDtoSchema = z.object({
     z.boolean(),
   ]),
   components: z.array(ComponentDtoSchema),
+  models: z.array(ModelDtoSchema),
 });
 
 export const LanguageGroupDtoSchema = z.object({
