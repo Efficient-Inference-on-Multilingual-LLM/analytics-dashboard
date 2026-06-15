@@ -18,23 +18,62 @@ import MultiModelGroup from "@/components/filter/multimodel-group";
 import LayerSlider from "@/components/filter/layer-slider";
 import PivotLanguage from "@/components/filter/pivot-language";
 import LanguageFilters from "@/components/filter/language-filters";
+import { useCrossModelUrlState } from "@/hooks/url-state/states";
 
 const CrossModelFilters = () => {
+  const [crossModelState, setCrossModelState] = useCrossModelUrlState();
   type AggregationOption = (typeof AGGREGATION_OPTIONS)[number];
+
+  const aggregationObj =
+    AGGREGATION_OPTIONS.find(
+      (option) => option.value === crossModelState.aggregation,
+    ) ?? null;
+  const handleAggregationChange = (option: AggregationOption | null) => {
+    setCrossModelState({
+      ...crossModelState,
+      aggregation: option ? option.value : null,
+    });
+  };
 
   return (
     <Section title="Cross-Model Filters">
-        In Progress
-      {/* <MethodSelector />
-      <MultiModelGroup label="Models & Components" />
-      <GroupBy />
+      <MethodSelector
+        selectedMethod={crossModelState.method ?? null}
+        onMethodChange={(method) =>
+          setCrossModelState({
+            ...crossModelState,
+            method: method as typeof crossModelState.method,
+          })
+        }
+        selectedTopK={crossModelState.top_k ?? null}
+        onTopKChange={(topK) =>
+          setCrossModelState({ ...crossModelState, top_k: topK })
+        }
+      />
+      <MultiModelGroup
+        label="Models & Components"
+        selectedModels={crossModelState.models ?? []}
+        setSelectedModels={(models) =>
+          setCrossModelState({ ...crossModelState, models })
+        }
+        selectedComponents={crossModelState.components ?? []}
+        setSelectedComponents={(components) =>
+          setCrossModelState({ ...crossModelState, components })
+        }
+      />
+      <GroupBy
+        value={crossModelState.group_by ?? null}
+        onChange={(groupBy) =>
+          setCrossModelState({ ...crossModelState, group_by: groupBy })
+        }
+      />
 
       <div>
         <Label className="text-sm px-1">Aggregation</Label>
         <Combobox
           items={AGGREGATION_OPTIONS}
-          itemToStringLabel={(item: AggregationOption) => item.label}
-          itemToStringValue={(item: AggregationOption) => item.value}
+          value={aggregationObj}
+          onValueChange={handleAggregationChange}
         >
           <ComboboxInput placeholder="Select an aggregation" showClear />
           <ComboboxContent>
@@ -52,10 +91,15 @@ const CrossModelFilters = () => {
 
       <LayerSlider
         title="Layer Percentage"
-        value={[50]}
+        value={[crossModelState.layer_percentage ?? 0]}
         max={100}
         step={1}
-        onChange={() => {}}
+        onChange={(value) =>
+          setCrossModelState({
+            ...crossModelState,
+            layer_percentage: value[0],
+          })
+        }
         showLabel
         showTooltip
         formatValue={(v) => `${v}%`}
@@ -64,7 +108,11 @@ const CrossModelFilters = () => {
 
       <PivotLanguage />
 
-      <LanguageFilters label="Language" /> */}
+      {/* <LanguageFilters 
+        label="Language" 
+        method={(crossModelState.method ?? undefined) as string | null}
+        
+      /> */}
     </Section>
   );
 };
