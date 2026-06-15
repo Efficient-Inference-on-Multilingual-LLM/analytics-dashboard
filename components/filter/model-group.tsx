@@ -35,16 +35,21 @@ const ModelGroup = ({
   const { data: modelsData } = useModels();
   const { data: methodsData } = useMethods();
   const { data: componentsData } = useComponents();
-
-  const allModels = modelsData?.models ?? [];
-
   const selectedMethodObj =
     methodsData?.methods.find((method) => method.id === methodId) ?? null;
-  const allowed = new Set(
+
+  const allowed_models = new Set(
+    (selectedMethodObj?.models ?? []).map((model) => model.id),
+  );
+  const allModels = (modelsData?.models ?? []).filter((model) =>
+    allowed_models.has(model.id),
+  );
+
+  const allowed_comp = new Set(
     (selectedMethodObj?.components ?? []).map((component) => component.id),
   );
   const allComponents = (componentsData?.components ?? []).filter((comp) =>
-    allowed.has(comp.id),
+    allowed_comp.has(comp.id),
   );
 
   const selectedModelObj =
