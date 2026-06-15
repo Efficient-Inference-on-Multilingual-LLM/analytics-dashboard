@@ -10,6 +10,7 @@ import {
 import { Label } from "../ui/label";
 import { useMethods } from "@/hooks/api/methods";
 import { MethodDto } from "@/types/dto";
+import { cn } from "@/lib/utils";
 
 interface MethodSelectorProps {
   selectedMethod: string | null;
@@ -47,31 +48,39 @@ const MethodSelector = ({
 
   return (
     <div className="flex flex-col w-full gap-3">
-      <div className="flex flex-col">
-        <Label className="text-sm px-1">Method</Label>
-        <Combobox
-          items={methods}
-          value={selectedMethodObj}
-          onValueChange={handleChange}
+      <div className="relative h-29">
+        <div className="absolute top-0 left-0 right-0 flex flex-col">
+          <Label className="text-sm px-1">Method</Label>
+          <Combobox
+            items={methods}
+            value={selectedMethodObj}
+            onValueChange={handleChange}
+          >
+            <ComboboxInput placeholder="Select a method" showClear />
+            <ComboboxContent>
+              <ComboboxEmpty>No items found.</ComboboxEmpty>
+              <ComboboxList>
+                {(item) => (
+                  <ComboboxItem key={item.id} value={item}>
+                    {item.label}
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        </div>
+        <div
+          className={cn(
+            "absolute bottom-0 left-0 right-0 flex flex-col",
+            "transition-opacity duration-300",
+            selectedMethod === "lape" && typeof topK === "object"
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none",
+          )}
         >
-          <ComboboxInput placeholder="Select a method" showClear />
-          <ComboboxContent>
-            <ComboboxEmpty>No items found.</ComboboxEmpty>
-            <ComboboxList>
-              {(item) => (
-                <ComboboxItem key={item.id} value={item}>
-                  {item.label}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
-      </div>
-      {selectedMethod === "lape" && typeof topK === "object" && (
-        <div className="flex flex-col">
           <Label className="text-sm px-1">Top Activations</Label>
           <Combobox
-            items={topK}
+            items={typeof topK === "object" ? topK : []}
             value={selectedTopKObj}
             onValueChange={handleTopKChange}
           >
@@ -88,7 +97,7 @@ const MethodSelector = ({
             </ComboboxContent>
           </Combobox>
         </div>
-      )}
+      </div>
     </div>
   );
 };
