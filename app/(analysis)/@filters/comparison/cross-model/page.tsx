@@ -2,7 +2,7 @@
 
 import Section from "@/components/filter/section";
 import MethodSelector from "@/components/filter/method-selector";
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import GroupBy from "@/components/filter/group-by";
 import { Label } from "@/components/ui/label";
 import {
@@ -27,6 +27,13 @@ import { useCrossModelTrajectoryLanguages } from "@/hooks/api/trajectory";
 import { cn } from "@/lib/utils";
 
 const CrossModelFilters = () => {
+  function useIsMounted() {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    return mounted;
+  }
+
+  const isMounted = useIsMounted();
   const [crossModelState, setCrossModelState] = useCrossModelUrlState();
   type AggregationOption = (typeof AGGREGATION_OPTIONS)[number];
 
@@ -77,6 +84,8 @@ const CrossModelFilters = () => {
     }),
     [crossModelState],
   );
+
+  if (!isMounted) return null;
 
   return (
     <Section title="Cross-Model Filters">

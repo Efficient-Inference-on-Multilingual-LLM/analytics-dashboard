@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
-import type { TrajectoryLanguageRequest } from "@/types/request";
-import type { TrajectoryLanguageResponse } from "@/types/response";
+import type {
+  TrajectoryLanguageRequest,
+  TrajectoryRequest,
+} from "@/types/request";
+import type {
+  TrajectoryLanguageResponse,
+  TrajectoryResponse,
+} from "@/types/response";
 import { useLanguages } from "@/hooks/api/languages";
 import { useMemo } from "react";
 
@@ -35,4 +41,13 @@ export function useCrossModelTrajectoryLanguages(
       ),
     };
   }, [pool, allLanguages]);
+}
+
+export function useTrajectory(request: TrajectoryRequest | null) {
+  return useQuery({
+    queryKey: ["trajectory", request],
+    queryFn: () => apiClient.post<TrajectoryResponse>("/trajectory", request!),
+    enabled: !!request,
+    staleTime: Infinity,
+  });
 }
