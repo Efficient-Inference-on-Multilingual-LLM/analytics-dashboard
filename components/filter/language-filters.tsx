@@ -3,6 +3,7 @@ import MultiPicker from "../ui/multi-picker";
 import { useLanguageRegistry, useResultLanguages } from "@/hooks/api/languages";
 import { applyFilters } from "@/lib/filter/language-filter";
 import { LanguageFilters as LangFilters } from "@/lib/filter/language-filter";
+import { LanguageDto } from "@/types/dto";
 
 interface LanguageFiltersProps {
   label: string;
@@ -12,6 +13,7 @@ interface LanguageFiltersProps {
   filters: LangFilters;
   onChange: (patch: Partial<LangFilters>) => void;
   onReset: () => void;
+  languageData?: { languages: LanguageDto[] };
 }
 
 const LanguageFilters = ({
@@ -22,10 +24,11 @@ const LanguageFilters = ({
   filters,
   onChange,
   onReset,
+  languageData: externalLanguageData,
 }: LanguageFiltersProps) => {
   const languagesRegistry = useLanguageRegistry();
 
-  const ready = !!method && !!model && !!component;
+  const ready = !externalLanguageData && !!method && !!model && !!component;
   const request = ready
     ? {
         method_id: method,
@@ -36,7 +39,8 @@ const LanguageFilters = ({
 
   const { data: languagesData } = useResultLanguages(request);
 
-  const allLanguages = languagesData?.languages;
+  const allLanguages =
+    externalLanguageData?.languages ?? languagesData?.languages;
   const appliedFilters = useMemo(
     () => applyFilters(allLanguages ?? [], filters),
     [allLanguages, filters],
