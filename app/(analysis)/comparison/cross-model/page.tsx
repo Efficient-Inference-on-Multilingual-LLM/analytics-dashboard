@@ -97,10 +97,19 @@ const CrossModelPage = () => {
   const codes = trajectory?.languages ?? [];
   const groups = trajectory?.sort_groups ?? null;
 
-  const componentIds = [
-    ...new Set(trajectory?.data.map((b) => b.component_id) ?? []),
-  ];
-  const modelIds = [...new Set(trajectory?.data.map((b) => b.model_id) ?? [])];
+  const componentIds = useMemo(
+    () => [...new Set(trajectory?.data.map((b) => b.component_id) ?? [])],
+    [trajectory],
+  );
+  const modelIds = useMemo(
+    () => [...new Set(trajectory?.data.map((b) => b.model_id) ?? [])],
+    [trajectory],
+  );
+
+  const orderedModels = useMemo(
+    () => modelIds.map((id) => ({ id, label: modelLabels[id] ?? id })),
+    [modelIds, modelLabels],
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -116,8 +125,9 @@ const CrossModelPage = () => {
         <SortGroupLegend
           groups={groups}
           showComponentLegend
+          models={orderedModels}
           width={350}
-          height={350}
+          height={520}
         />
       </div>
       {trajectory && (
