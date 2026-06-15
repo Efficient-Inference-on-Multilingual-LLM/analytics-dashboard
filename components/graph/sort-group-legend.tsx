@@ -3,7 +3,7 @@ import { LanguageGroupDto } from "@/types/dto";
 import FloatingWindow from "@/components/ui/floating-window";
 
 interface SortGroupLegendProps {
-  groups: LanguageGroupDto[];
+  groups: LanguageGroupDto[] | null;
 }
 
 const SortGroupLegend = ({ groups }: SortGroupLegendProps) => {
@@ -14,7 +14,7 @@ const SortGroupLegend = ({ groups }: SortGroupLegendProps) => {
       defaultSize={{ width: 320, height: 260 }}
     >
       <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
-        {groups.map((group, i) => (
+        {groups?.map((group, i) => (
           <div
             key={i}
             className="flex items-center gap-2 text-xs overflow-hidden"

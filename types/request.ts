@@ -40,9 +40,21 @@ export const TrajectoryLanguageRequestSchema = z.object({
   top_k: z.number().nullable().optional(),
 });
 
+export const TrajectoryRequest = z.object({
+  method_id: z.string(),
+  model_ids: z.array(z.string()),
+  component_ids: z.array(z.string()),
+  languages: z.array(z.string()).nullable().optional(),
+  top_k: z.number().nullable().optional(),
+  main_language: z.string().nullable().optional(),
+  sort_by: z.string().nullable().optional(),
+  depth_range: z.tuple([z.number().int(), z.number().int()]),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
 export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;
 export type TrajectoryLanguageRequest = z.infer<
   typeof TrajectoryLanguageRequestSchema
 >;
+export type TrajectoryRequest = z.infer<typeof TrajectoryRequest>;
