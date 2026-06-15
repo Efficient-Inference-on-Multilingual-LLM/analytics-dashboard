@@ -90,6 +90,17 @@ const CrossModelFilters = () => {
         </Combobox>
       </div>
 
+      <PivotLanguage
+        method={(crossModelState.method ?? undefined) as string}
+        modelIds={crossModelState.models ?? []}
+        componentIds={crossModelState.components ?? []}
+        topK={crossModelState.top_k ?? null}
+        value={crossModelState.pivot_language ?? undefined}
+        onChange={(pivot_language) =>
+          setCrossModelState({ ...crossModelState, pivot_language })
+        }
+      />
+
       <LayerSlider
         title="Layer Percentage"
         value={[crossModelState.layer_percentage ?? 0]}
@@ -106,8 +117,6 @@ const CrossModelFilters = () => {
         formatValue={(v) => `${v}%`}
         className="flex flex-col gap-2"
       />
-
-      <PivotLanguage />
 
       {/* <LanguageFilters 
         label="Language" 
