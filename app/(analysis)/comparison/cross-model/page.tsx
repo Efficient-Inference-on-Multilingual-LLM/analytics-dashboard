@@ -113,7 +113,12 @@ const CrossModelPage = () => {
       state={urlState}
     >
       <div className="flex justify-end">
-        <SortGroupLegend groups={groups} />
+        <SortGroupLegend
+          groups={groups}
+          showComponentLegend
+          width={350}
+          height={350}
+        />
       </div>
       {trajectory && (
         <>
