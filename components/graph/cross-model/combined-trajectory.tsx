@@ -91,7 +91,8 @@ export default function CombinedChart({
         xaxis: { title: { text: "Depth (%)" } },
         yaxis: {
           ...BASE_LAYOUT.yaxis,
-          title: { text: `Average ${metricLabel(method)}` },
+          title: { text: `Average ${metricLabel(method)}`, standoff: 20 },
+          automargin: true,
         },
         height: 550,
         showlegend: false,
