@@ -11,11 +11,13 @@ import {
   ComboboxList,
 } from "../ui/combobox";
 import { useModels, useComponents } from "@/hooks/api/models";
+import { useMethods } from "@/hooks/api/methods";
 import { ModelDto } from "@/types/dto";
 import { ComponentDto } from "@/types/dto";
 
 interface ModelGroupProps {
   label: string;
+  methodId: string | null;
   selectedModel: string | null;
   setSelectedModel: (model: string | null) => void;
   selectedComponent: string | null;
@@ -24,16 +26,26 @@ interface ModelGroupProps {
 
 const ModelGroup = ({
   label,
+  methodId,
   selectedModel,
   setSelectedModel,
   selectedComponent,
   setSelectedComponent,
 }: ModelGroupProps) => {
   const { data: modelsData } = useModels();
+  const { data: methodsData } = useMethods();
   const { data: componentsData } = useComponents();
 
   const allModels = modelsData?.models ?? [];
-  const allComponents = componentsData?.components ?? [];
+
+  const selectedMethodObj =
+    methodsData?.methods.find((method) => method.id === methodId) ?? null;
+  const allowed = new Set(
+    (selectedMethodObj?.components ?? []).map((component) => component.id),
+  );
+  const allComponents = (componentsData?.components ?? []).filter((comp) =>
+    allowed.has(comp.id),
+  );
 
   const selectedModelObj =
     allModels.find((model) => model.id === selectedModel) ?? null;

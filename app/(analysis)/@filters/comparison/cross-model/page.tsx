@@ -17,7 +17,7 @@ import { AGGREGATION_OPTIONS } from "@/types/constant";
 import MultiModelGroup from "@/components/filter/multimodel-group";
 import LayerSlider from "@/components/filter/layer-slider";
 import PivotLanguage from "@/components/filter/pivot-language";
-import LanguageFilters from "@/components/filter/language-filters";
+// import LanguageFilters from "@/components/filter/language-filters";
 import { useCrossModelUrlState } from "@/hooks/url-state/states";
 
 const CrossModelFilters = () => {
@@ -52,6 +52,7 @@ const CrossModelFilters = () => {
       />
       <MultiModelGroup
         label="Models & Components"
+        methodId={crossModelState.method ?? null}
         selectedModels={crossModelState.models ?? []}
         setSelectedModels={(models) =>
           setCrossModelState({ ...crossModelState, models })
