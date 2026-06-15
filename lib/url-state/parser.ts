@@ -6,12 +6,20 @@ import {
   parseAsInteger,
 } from "nuqs/server";
 import { encodeLangs, decodeLangs } from "./lang-codec";
-import { GROUP_BY_OPTIONS, LINKAGE_METHODS } from "@/types/constant";
+import {
+  GROUP_BY_OPTIONS,
+  LINKAGE_METHODS,
+  AGGREGATION_OPTIONS,
+} from "@/types/constant";
 
 const groupByValues = GROUP_BY_OPTIONS.map(
   (opt: { value: string; label: string }) => opt.value,
 );
 const linkageValues = LINKAGE_METHODS.map(
+  (opt: { value: string; label: string }) => opt.value,
+);
+
+const aggregationValues = AGGREGATION_OPTIONS.map(
   (opt: { value: string; label: string }) => opt.value,
 );
 
@@ -60,8 +68,27 @@ export const heatmapParser = {
   c: parseAsString,
 };
 
+export const crossModelParser = {
+  method: parseAsStringLiteral(["cka", "cknna", "silhoutte", "lape"]),
+  models: strArray(),
+  components: strArray(),
+  top_k: parseAsString,
+  group_by: parseAsStringLiteral(groupByValues).withDefault("family"),
+  aggregation: parseAsStringLiteral(aggregationValues).withDefault("mean"),
+  layer_percentage: parseAsInteger.withDefault(0),
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
 export type HeatmapUrlState = {
   [K in keyof typeof heatmapParser]: ReturnType<
     (typeof heatmapParser)[K]["parse"]
+  >;
+};
+
+export type CrossModelUrlState = {
+  [K in keyof typeof crossModelParser]: ReturnType<
+    (typeof crossModelParser)[K]["parse"]
   >;
 };
