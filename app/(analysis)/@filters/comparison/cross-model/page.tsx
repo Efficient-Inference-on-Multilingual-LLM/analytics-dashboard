@@ -2,7 +2,7 @@
 
 import Section from "@/components/filter/section";
 import MethodSelector from "@/components/filter/method-selector";
-import React from "react";
+import React, { useMemo } from "react";
 import GroupBy from "@/components/filter/group-by";
 import { Label } from "@/components/ui/label";
 import {
@@ -17,8 +17,13 @@ import { AGGREGATION_OPTIONS } from "@/types/constant";
 import MultiModelGroup from "@/components/filter/multimodel-group";
 import LayerSlider from "@/components/filter/layer-slider";
 import PivotLanguage from "@/components/filter/pivot-language";
-// import LanguageFilters from "@/components/filter/language-filters";
+import LanguageFilters from "@/components/filter/language-filters";
+import {
+  DEFAULT_FILTERS,
+  LanguageFilters as LangFilters,
+} from "@/lib/filter/language-filter";
 import { useCrossModelUrlState } from "@/hooks/url-state/states";
+import { useCrossModelTrajectoryLanguages } from "@/hooks/api/trajectory";
 
 const CrossModelFilters = () => {
   const [crossModelState, setCrossModelState] = useCrossModelUrlState();
@@ -34,6 +39,40 @@ const CrossModelFilters = () => {
       aggregation: option ? option.value : null,
     });
   };
+
+  const ready =
+    !!crossModelState.method &&
+    crossModelState.models.length > 0 &&
+    crossModelState.components.length > 0;
+
+  const languageRequest = ready
+    ? {
+        method: crossModelState.method as string,
+        model_ids: crossModelState.models as string[],
+        component_ids: crossModelState.components as string[],
+        top_k: crossModelState.top_k ? Number(crossModelState.top_k) : null,
+      }
+    : null;
+
+  const languagePool = useCrossModelTrajectoryLanguages(languageRequest);
+
+  const langFilters: LangFilters = useMemo(
+    () => ({
+      regions: crossModelState.regions ?? DEFAULT_FILTERS.regions,
+      families: crossModelState.families ?? DEFAULT_FILTERS.families,
+      subfamilies: crossModelState.subfamilies ?? DEFAULT_FILTERS.subfamilies,
+      subsubfamilies:
+        crossModelState.subsubfamilies ?? DEFAULT_FILTERS.subsubfamilies,
+      scripts: crossModelState.scripts ?? DEFAULT_FILTERS.scripts,
+      syntaxes: crossModelState.syntaxes ?? DEFAULT_FILTERS.syntaxes,
+      vocabs: crossModelState.vocabs ?? DEFAULT_FILTERS.vocabs,
+      phonetics: crossModelState.phonetics ?? DEFAULT_FILTERS.phonetics,
+      joshiClasses:
+        crossModelState.joshiClasses ?? DEFAULT_FILTERS.joshiClasses,
+      languages: crossModelState.languages ?? DEFAULT_FILTERS.languages,
+    }),
+    [crossModelState],
+  );
 
   return (
     <Section title="Cross-Model Filters">
@@ -118,11 +157,20 @@ const CrossModelFilters = () => {
         className="flex flex-col gap-2"
       />
 
-      {/* <LanguageFilters 
-        label="Language" 
+      <LanguageFilters
+        label="Language"
+        model={null}
+        component={null}
         method={(crossModelState.method ?? undefined) as string | null}
-        
-      /> */}
+        filters={langFilters}
+        onChange={(patch) =>
+          setCrossModelState({ ...crossModelState, ...patch })
+        }
+        onReset={() =>
+          setCrossModelState({ ...crossModelState, ...DEFAULT_FILTERS })
+        }
+        languageData={languagePool}
+      />
     </Section>
   );
 };
