@@ -1,5 +1,9 @@
 import { useQueryStates } from "nuqs";
-import { heatmapParser, crossModelParser } from "@/lib/url-state/parser";
+import {
+  heatmapParser,
+  crossModelParser,
+  layerTrendParser,
+} from "@/lib/url-state/parser";
 
 export function useHeatmapUrlState() {
   return useQueryStates(heatmapParser);
@@ -7,4 +11,8 @@ export function useHeatmapUrlState() {
 
 export function useCrossModelUrlState() {
   return useQueryStates(crossModelParser);
+}
+
+export function useLayerTrendUrlState() {
+  return useQueryStates(layerTrendParser);
 }

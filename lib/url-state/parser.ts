@@ -93,6 +93,16 @@ export const crossModelParser = {
   c: parseAsString,
 };
 
+export const layerTrendParser = {
+  method: parseAsStringLiteral(["silhouette"]).withDefault("silhouette"),
+  models: strArray(),
+  components: strArray(),
+  factor: strArray(),
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
 export type HeatmapUrlState = {
   [K in keyof typeof heatmapParser]: ReturnType<
     (typeof heatmapParser)[K]["parse"]
