@@ -90,8 +90,8 @@ export const IndividualHeatmapResponseSchema = z.object({
   num_layers_total: z.number().int(),
   sort_groups: z.array(LanguageGroupDtoSchema).nullish(),
   rows: z.array(LanguageCellSchema).nullish(),
-  grid: z.array(PerLayerResponseSchema).nullish(),
-  value_range: z.tuple([z.number(), z.number()]).nullish(),
+  grid: z.array(z.array(PerLayerResponseSchema)).nullish(),
+  value_range: z.tuple([z.number(), z.number()]),
 });
 
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
