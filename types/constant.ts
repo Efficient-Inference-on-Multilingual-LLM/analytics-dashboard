@@ -28,7 +28,6 @@ export const CLUSTERING_FACTORS = [
   { value: "family", label: "Family" },
   { value: "sub-family", label: "Sub-family" },
   { value: "sub-sub-family", label: "Sub-sub-family" },
-  { value: "region", label: "Region" },
   { value: "joshi-class", label: "Joshi Class" },
   { value: "syntax", label: "Syntax" },
   { value: "script", label: "Script" },

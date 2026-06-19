@@ -28,11 +28,11 @@ const ClusterPageFilter = () => {
       <MultiSelect
         frameworks={CLUSTERING_FACTORS}
         label="Clustering Factors"
-        placeholder="Select clustering factors"
+        placeholder="Select Clustering Factors"
         onValueChange={(items) =>
-          setUrlState({ ...urlState, factor: items.map((item) => item.value) })
+          setUrlState({ ...urlState, factors: items.map((item) => item.value) })
         }
-        value={urlState.factor ?? []}
+        value={urlState.factors ?? []}
       />
     </Section>
   );

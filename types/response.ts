@@ -7,6 +7,7 @@ import {
   LanguageGroupDtoSchema,
   ClusterDtoSchema,
   ModelComponentSeriesSchema,
+  LayerTrendSchema,
 } from "./dto";
 import { z } from "zod";
 
@@ -74,6 +75,10 @@ export const TrajectoryResponseSchema = z.object({
   ),
 });
 
+export const LayerTrendResponseSchema = z.object({
+  lines: z.array(LayerTrendSchema),
+});
+
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
 export type MethodResponse = z.infer<typeof MethodResponseSchema>;
 export type ComponentResponse = z.infer<typeof ComponentResponseSchema>;
@@ -84,3 +89,4 @@ export type TrajectoryLanguageResponse = z.infer<
   typeof TrajectoryLanguageResponseSchema
 >;
 export type TrajectoryResponse = z.infer<typeof TrajectoryResponseSchema>;
+export type LayerTrendResponse = z.infer<typeof LayerTrendResponseSchema>;

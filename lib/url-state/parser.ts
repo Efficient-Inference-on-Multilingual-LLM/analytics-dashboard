@@ -97,7 +97,7 @@ export const layerTrendParser = {
   method: parseAsStringLiteral(["silhouette"]).withDefault("silhouette"),
   models: strArray(),
   components: strArray(),
-  factor: strArray(),
+  factors: strArray(),
 
   s: parseAsString,
   c: parseAsString,
