@@ -8,6 +8,8 @@ import {
   ClusterDtoSchema,
   ModelComponentSeriesSchema,
   LayerTrendSchema,
+  LanguageCellSchema,
+  PerLayerResponseSchema,
 } from "./dto";
 import { z } from "zod";
 
@@ -79,6 +81,19 @@ export const LayerTrendResponseSchema = z.object({
   lines: z.array(LayerTrendSchema),
 });
 
+export const IndividualHeatmapResponseSchema = z.object({
+  method: z.string(),
+  model_id: z.string(),
+  component_id: z.string(),
+  main_language: z.string(),
+  layers: z.array(z.number().int()),
+  num_layers_total: z.number().int(),
+  sort_groups: z.array(LanguageGroupDtoSchema).nullish(),
+  rows: z.array(LanguageCellSchema).nullish(),
+  grid: z.array(PerLayerResponseSchema).nullish(),
+  value_range: z.tuple([z.number(), z.number()]).nullish(),
+});
+
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
 export type MethodResponse = z.infer<typeof MethodResponseSchema>;
 export type ComponentResponse = z.infer<typeof ComponentResponseSchema>;
@@ -90,3 +105,6 @@ export type TrajectoryLanguageResponse = z.infer<
 >;
 export type TrajectoryResponse = z.infer<typeof TrajectoryResponseSchema>;
 export type LayerTrendResponse = z.infer<typeof LayerTrendResponseSchema>;
+export type IndividualHeatmapResponse = z.infer<
+  typeof IndividualHeatmapResponseSchema
+>;

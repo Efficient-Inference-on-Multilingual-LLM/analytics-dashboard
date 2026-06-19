@@ -77,6 +77,21 @@ export const LayerTrendSchema = z.object({
   score: z.array(z.number()),
 });
 
+export const LanguageCellSchema = z.object({
+  language: z.string(),
+  family: z.string(),
+  color: z.string(),
+  values: z.array(z.number()),
+});
+
+export const PerLayerResponseSchema = z.object({
+  rank: z.number().int(),
+  language: z.string(),
+  score: z.number(),
+  family: z.string(),
+  color: z.string(),
+});
+
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
@@ -86,3 +101,5 @@ export type LayerHeatmapDto = z.infer<typeof LayerHeatmapDtoSchema>;
 export type ClusterDto = z.infer<typeof ClusterDtoSchema>;
 export type ModelComponentSeries = z.infer<typeof ModelComponentSeriesSchema>;
 export type LayerTrendDto = z.infer<typeof LayerTrendSchema>;
+export type LanguageCell = z.infer<typeof LanguageCellSchema>;
+export type PerLayerResponse = z.infer<typeof PerLayerResponseSchema>;

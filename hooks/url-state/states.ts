@@ -3,6 +3,8 @@ import {
   heatmapParser,
   crossModelParser,
   layerTrendParser,
+  individualHeatmapParser,
+  individualHeatmapRankParser,
 } from "@/lib/url-state/parser";
 
 export function useHeatmapUrlState() {
@@ -15,4 +17,12 @@ export function useCrossModelUrlState() {
 
 export function useLayerTrendUrlState() {
   return useQueryStates(layerTrendParser);
+}
+
+export function useIndividualHeatmapUrlState() {
+  return useQueryStates(individualHeatmapParser);
+}
+
+export function useIndividualHeatmapRankUrlState() {
+  return useQueryStates(individualHeatmapRankParser);
 }

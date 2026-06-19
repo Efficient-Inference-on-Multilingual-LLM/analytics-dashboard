@@ -58,6 +58,19 @@ export const LayerTrendRequestSchema = z.object({
   factors: z.array(z.string()),
 });
 
+export const IndividualHeatmapRequestSchema = z.object({
+  method: z.string(),
+  model_id: z.string(),
+  component_id: z.string(),
+  top_k: z.number().nullable().optional(),
+  sort_by: z.string(),
+  languages: z.array(z.string()).nullable().optional(),
+  main_language: z.string().nullable().optional(),
+  mode: z.string(),
+  rank_range: z.tuple([z.number().int(), z.number().int()]),
+  layer_range: z.tuple([z.number().int(), z.number().int()]),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
 export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;
@@ -66,3 +79,6 @@ export type TrajectoryLanguageRequest = z.infer<
 >;
 export type TrajectoryRequest = z.infer<typeof TrajectoryRequestSchema>;
 export type LayerTrendRequest = z.infer<typeof LayerTrendRequestSchema>;
+export type IndividualHeatmapRequest = z.infer<
+  typeof IndividualHeatmapRequestSchema
+>;
