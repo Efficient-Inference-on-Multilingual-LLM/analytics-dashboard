@@ -103,6 +103,59 @@ export const layerTrendParser = {
   c: parseAsString,
 };
 
+export const individualHeatmapParser = {
+  method: parseAsStringLiteral(["cka", "cknna", "silhoutte", "lape"]),
+  model: parseAsString.withDefault(""),
+  component: parseAsString.withDefault(""),
+  layer_range: parseAsArrayOf(parseAsInteger),
+  top_k: parseAsString,
+  group_by: parseAsStringLiteral(groupByValues).withDefault("family"),
+  regions: strArray(),
+  families: strArray(),
+  subfamilies: strArray(),
+  subsubfamilies: strArray(),
+  scripts: strArray(),
+  syntaxes: strArray(),
+  vocabs: strArray(),
+  phonetics: strArray(),
+  joshiClasses: parseAsArrayOf(parseAsInteger).withDefault([]),
+  languages: parseAsLangs.withDefault([]),
+  mode: parseAsStringLiteral(["languages", "per-layer"]).withDefault(
+    "languages",
+  ),
+  mainLanguage: parseAsString,
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
+export const individualHeatmapRankParser = {
+  method: parseAsStringLiteral(["cka", "cknna", "silhoutte", "lape"]),
+  model: parseAsString.withDefault(""),
+  component: parseAsString.withDefault(""),
+  layer_range: parseAsArrayOf(parseAsInteger),
+  rank_range: parseAsArrayOf(parseAsInteger),
+  top_k: parseAsString,
+  group_by: parseAsStringLiteral(groupByValues).withDefault("family"),
+  regions: strArray(),
+  families: strArray(),
+  subfamilies: strArray(),
+  subsubfamilies: strArray(),
+  scripts: strArray(),
+  syntaxes: strArray(),
+  vocabs: strArray(),
+  phonetics: strArray(),
+  joshiClasses: parseAsArrayOf(parseAsInteger).withDefault([]),
+  languages: parseAsLangs.withDefault([]),
+  mode: parseAsStringLiteral(["languages", "per-layer"]).withDefault(
+    "per-layer",
+  ),
+  mainLanguage: parseAsString,
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
 export type HeatmapUrlState = {
   [K in keyof typeof heatmapParser]: ReturnType<
     (typeof heatmapParser)[K]["parse"]
@@ -112,5 +165,23 @@ export type HeatmapUrlState = {
 export type CrossModelUrlState = {
   [K in keyof typeof crossModelParser]: ReturnType<
     (typeof crossModelParser)[K]["parse"]
+  >;
+};
+
+export type LayerTrendUrlState = {
+  [K in keyof typeof layerTrendParser]: ReturnType<
+    (typeof layerTrendParser)[K]["parse"]
+  >;
+};
+
+export type IndividualHeatmapUrlState = {
+  [K in keyof typeof individualHeatmapParser]: ReturnType<
+    (typeof individualHeatmapParser)[K]["parse"]
+  >;
+};
+
+export type IndividualHeatmapRankUrlState = {
+  [K in keyof typeof individualHeatmapRankParser]: ReturnType<
+    (typeof individualHeatmapRankParser)[K]["parse"]
   >;
 };
