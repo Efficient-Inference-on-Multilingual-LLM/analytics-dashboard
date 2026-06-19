@@ -67,7 +67,10 @@ export const IndividualHeatmapRequestSchema = z.object({
   languages: z.array(z.string()).nullable().optional(),
   main_language: z.string().nullable().optional(),
   mode: z.string(),
-  rank_range: z.tuple([z.number().int(), z.number().int()]),
+  rank_range: z
+    .tuple([z.number().int(), z.number().int()])
+    .nullable()
+    .optional(),
   layer_range: z.tuple([z.number().int(), z.number().int()]),
 });
 

@@ -134,7 +134,7 @@ export const individualHeatmapRankParser = {
   model: parseAsString.withDefault(""),
   component: parseAsString.withDefault(""),
   layer_range: parseAsArrayOf(parseAsInteger),
-  rank_range: parseAsArrayOf(parseAsInteger),
+  rank_range: parseAsArrayOf(parseAsInteger).withDefault([0, 10]),
   top_k: parseAsString,
   group_by: parseAsStringLiteral(groupByValues).withDefault("family"),
   regions: strArray(),
