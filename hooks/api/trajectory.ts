@@ -3,10 +3,12 @@ import { apiClient } from "@/lib/api/client";
 import type {
   TrajectoryLanguageRequest,
   TrajectoryRequest,
+  LayerTrendRequest,
 } from "@/types/request";
 import type {
   TrajectoryLanguageResponse,
   TrajectoryResponse,
+  LayerTrendResponse,
 } from "@/types/response";
 import { useLanguages } from "@/hooks/api/languages";
 import { useMemo } from "react";
@@ -47,6 +49,16 @@ export function useTrajectory(request: TrajectoryRequest | null) {
   return useQuery({
     queryKey: ["trajectory", request],
     queryFn: () => apiClient.post<TrajectoryResponse>("/trajectory", request!),
+    enabled: !!request,
+    staleTime: Infinity,
+  });
+}
+
+export function useLayerTrend(request: LayerTrendRequest | null) {
+  return useQuery({
+    queryKey: ["layer-trend", request],
+    queryFn: () =>
+      apiClient.post<LayerTrendResponse>("/trajectory/layer-trends", request!),
     enabled: !!request,
     staleTime: Infinity,
   });

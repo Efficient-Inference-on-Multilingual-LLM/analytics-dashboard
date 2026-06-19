@@ -68,6 +68,15 @@ export const ModelComponentSeriesSchema = z.object({
   series: z.record(z.string(), z.array(z.number().nullable())),
 });
 
+export const LayerTrendSchema = z.object({
+  model_id: z.string(),
+  component_id: z.string(),
+  factor: z.string(),
+  layer: z.array(z.number().int()),
+  layer_percentage: z.array(z.number()),
+  score: z.array(z.number()),
+});
+
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
@@ -76,3 +85,4 @@ export type LanguageGroupDto = z.infer<typeof LanguageGroupDtoSchema>;
 export type LayerHeatmapDto = z.infer<typeof LayerHeatmapDtoSchema>;
 export type ClusterDto = z.infer<typeof ClusterDtoSchema>;
 export type ModelComponentSeries = z.infer<typeof ModelComponentSeriesSchema>;
+export type LayerTrendDto = z.infer<typeof LayerTrendSchema>;
