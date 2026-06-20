@@ -12,8 +12,7 @@ import {
 } from "../ui/combobox";
 import { useModels, useComponents } from "@/hooks/api/models";
 import { useMethods } from "@/hooks/api/methods";
-import { ModelDto } from "@/types/dto";
-import { ComponentDto } from "@/types/dto";
+import { ModelDto, ComponentDto } from "@/types/dto";
 
 interface ModelGroupProps {
   label: string;

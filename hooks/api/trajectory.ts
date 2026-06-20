@@ -4,11 +4,13 @@ import type {
   TrajectoryLanguageRequest,
   TrajectoryRequest,
   LayerTrendRequest,
+  DynamicTrajectoryRequest,
 } from "@/types/request";
 import type {
   TrajectoryLanguageResponse,
   TrajectoryResponse,
   LayerTrendResponse,
+  DynamicTrajectoryResponse,
 } from "@/types/response";
 import { useLanguages } from "@/hooks/api/languages";
 import { useMemo } from "react";
@@ -59,6 +61,19 @@ export function useLayerTrend(request: LayerTrendRequest | null) {
     queryKey: ["layer-trend", request],
     queryFn: () =>
       apiClient.post<LayerTrendResponse>("/trajectory/layer-trends", request!),
+    enabled: !!request,
+    staleTime: Infinity,
+  });
+}
+
+export function useDynamicTrajectory(request: DynamicTrajectoryRequest | null) {
+  return useQuery({
+    queryKey: ["dynamic-trajectory", request],
+    queryFn: () =>
+      apiClient.post<DynamicTrajectoryResponse>(
+        "/trajectory/dynamic-component",
+        request!,
+      ),
     enabled: !!request,
     staleTime: Infinity,
   });

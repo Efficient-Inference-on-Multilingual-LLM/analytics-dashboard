@@ -156,6 +156,43 @@ export const individualHeatmapRankParser = {
   c: parseAsString,
 };
 
+export const dynamicTrajectoryParser = {
+  method: parseAsStringLiteral(["cka", "cknna", "silhoutte", "lape"]),
+  model: parseAsString.withDefault(""),
+  components: strArray(),
+  layer_range: parseAsArrayOf(parseAsInteger),
+  top_k: parseAsString,
+  group_by: parseAsStringLiteral(groupByValues).withDefault("family"),
+  regions: strArray(),
+  families: strArray(),
+  subfamilies: strArray(),
+  subsubfamilies: strArray(),
+  scripts: strArray(),
+  syntaxes: strArray(),
+  vocabs: strArray(),
+  phonetics: strArray(),
+  joshiClasses: parseAsArrayOf(parseAsInteger).withDefault([]),
+  languages: parseAsLangs.withDefault([]),
+  mainLanguage: parseAsString,
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
+export const differenceHeatmapParser = {
+  method: parseAsStringLiteral(["cka", "cknna", "silhoutte", "lape"]),
+  model: parseAsString.withDefault(""),
+  src_component: parseAsString.withDefault(""),
+  tgt_component: parseAsString.withDefault(""),
+  src_layer: parseAsInteger.withDefault(0),
+  tgt_layer: parseAsInteger.withDefault(0),
+  top_k: parseAsString,
+  languages: parseAsLangs.withDefault([]),
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
 export type HeatmapUrlState = {
   [K in keyof typeof heatmapParser]: ReturnType<
     (typeof heatmapParser)[K]["parse"]
@@ -183,5 +220,17 @@ export type IndividualHeatmapUrlState = {
 export type IndividualHeatmapRankUrlState = {
   [K in keyof typeof individualHeatmapRankParser]: ReturnType<
     (typeof individualHeatmapRankParser)[K]["parse"]
+  >;
+};
+
+export type DynamicHeatmapUrlState = {
+  [K in keyof typeof dynamicTrajectoryParser]: ReturnType<
+    (typeof dynamicTrajectoryParser)[K]["parse"]
+  >;
+};
+
+export type DifferenceHeatmapUrlState = {
+  [K in keyof typeof differenceHeatmapParser]: ReturnType<
+    (typeof differenceHeatmapParser)[K]["parse"]
   >;
 };

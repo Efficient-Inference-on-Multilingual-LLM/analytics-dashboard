@@ -5,6 +5,8 @@ import {
   layerTrendParser,
   individualHeatmapParser,
   individualHeatmapRankParser,
+  dynamicTrajectoryParser,
+  differenceHeatmapParser,
 } from "@/lib/url-state/parser";
 
 export function useHeatmapUrlState() {
@@ -25,4 +27,12 @@ export function useIndividualHeatmapUrlState() {
 
 export function useIndividualHeatmapRankUrlState() {
   return useQueryStates(individualHeatmapRankParser);
+}
+
+export function useDynamicTrajectoryUrlState() {
+  return useQueryStates(dynamicTrajectoryParser);
+}
+
+export function useDifferenceHeatmapUrlState() {
+  return useQueryStates(differenceHeatmapParser);
 }
