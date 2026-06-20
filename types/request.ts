@@ -74,6 +74,17 @@ export const IndividualHeatmapRequestSchema = z.object({
   layer_range: z.tuple([z.number().int(), z.number().int()]),
 });
 
+export const DynamicTrajectoryRequestSchema = z.object({
+  method: z.string(),
+  model_id: z.string(),
+  component_ids: z.array(z.string()),
+  layer_range: z.tuple([z.number().int(), z.number().int()]),
+  languages: z.array(z.string()).nullable().optional(),
+  pivot_language: z.string().nullable().optional(),
+  sort_by: z.string().nullable().optional(),
+  top_k: z.number().nullable().optional(),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
 export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;
@@ -84,4 +95,7 @@ export type TrajectoryRequest = z.infer<typeof TrajectoryRequestSchema>;
 export type LayerTrendRequest = z.infer<typeof LayerTrendRequestSchema>;
 export type IndividualHeatmapRequest = z.infer<
   typeof IndividualHeatmapRequestSchema
+>;
+export type DynamicTrajectoryRequest = z.infer<
+  typeof DynamicTrajectoryRequestSchema
 >;

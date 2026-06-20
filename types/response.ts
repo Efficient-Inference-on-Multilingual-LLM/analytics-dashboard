@@ -10,6 +10,7 @@ import {
   LayerTrendSchema,
   LanguageCellSchema,
   PerLayerResponseSchema,
+  DynamicTrajectoryDtoSchema,
 } from "./dto";
 import { z } from "zod";
 
@@ -94,6 +95,18 @@ export const IndividualHeatmapResponseSchema = z.object({
   value_range: z.tuple([z.number(), z.number()]),
 });
 
+export const DynamicTrajectoryResponseSchema = z.object({
+  method: z.string(),
+  model_id: z.string(),
+  metric_label: z.string(),
+  y_axis_label: z.string(),
+  pivot_language: z.string().nullable().optional(),
+  x_labels: z.array(z.string()),
+  markers: z.array(z.string()),
+  series: z.array(DynamicTrajectoryDtoSchema),
+  groups: z.array(LanguageGroupDtoSchema),
+});
+
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
 export type MethodResponse = z.infer<typeof MethodResponseSchema>;
 export type ComponentResponse = z.infer<typeof ComponentResponseSchema>;
@@ -107,4 +120,7 @@ export type TrajectoryResponse = z.infer<typeof TrajectoryResponseSchema>;
 export type LayerTrendResponse = z.infer<typeof LayerTrendResponseSchema>;
 export type IndividualHeatmapResponse = z.infer<
   typeof IndividualHeatmapResponseSchema
+>;
+export type DynamicTrajectoryResponse = z.infer<
+  typeof DynamicTrajectoryResponseSchema
 >;

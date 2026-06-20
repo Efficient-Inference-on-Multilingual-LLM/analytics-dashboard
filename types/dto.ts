@@ -92,6 +92,14 @@ export const PerLayerResponseSchema = z.object({
   color: z.string(),
 });
 
+export const DynamicTrajectoryDtoSchema = z.object({
+  code: z.string(),
+  name: z.string(),
+  group: z.string(),
+  color: z.string(),
+  values: z.array(z.number()),
+});
+
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
@@ -103,3 +111,4 @@ export type ModelComponentSeries = z.infer<typeof ModelComponentSeriesSchema>;
 export type LayerTrendDto = z.infer<typeof LayerTrendSchema>;
 export type LanguageCell = z.infer<typeof LanguageCellSchema>;
 export type PerLayerResponse = z.infer<typeof PerLayerResponseSchema>;
+export type DynamicTrajectoryDto = z.infer<typeof DynamicTrajectoryDtoSchema>;
