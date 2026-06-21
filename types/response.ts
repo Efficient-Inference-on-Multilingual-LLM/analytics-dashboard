@@ -11,6 +11,7 @@ import {
   LanguageCellSchema,
   PerLayerResponseSchema,
   DynamicTrajectoryDtoSchema,
+  DifferenceEndpointDtoSchema,
 } from "./dto";
 import { z } from "zod";
 
@@ -107,6 +108,18 @@ export const DynamicTrajectoryResponseSchema = z.object({
   groups: z.array(LanguageGroupDtoSchema),
 });
 
+export const DifferenceResponseSchema = z.object({
+  method: z.string(),
+  model_id: z.string(),
+  metric_label: z.string(),
+  languages: z.array(z.string()),
+  matrix: z.array(z.array(z.number().nullable())),
+  value_range: z.tuple([z.number(), z.number()]),
+  sort_groups: z.array(LanguageGroupDtoSchema),
+  source: DifferenceEndpointDtoSchema,
+  target: DifferenceEndpointDtoSchema,
+});
+
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
 export type MethodResponse = z.infer<typeof MethodResponseSchema>;
 export type ComponentResponse = z.infer<typeof ComponentResponseSchema>;
@@ -124,3 +137,4 @@ export type IndividualHeatmapResponse = z.infer<
 export type DynamicTrajectoryResponse = z.infer<
   typeof DynamicTrajectoryResponseSchema
 >;
+export type DifferenceResponse = z.infer<typeof DifferenceResponseSchema>;
