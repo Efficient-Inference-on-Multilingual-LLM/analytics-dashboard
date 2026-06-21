@@ -85,6 +85,18 @@ export const DynamicTrajectoryRequestSchema = z.object({
   top_k: z.number().nullable().optional(),
 });
 
+export const DifferenceRequestSchema = z.object({
+  method: z.string(),
+  model_id: z.string(),
+  source_component_id: z.string(),
+  target_component_id: z.string(),
+  source_layer: z.number().int(),
+  target_layer: z.number().int(),
+  languages: z.array(z.string()).nullable().optional(),
+  sort_by: z.string(),
+  top_k: z.number().int().nullish(),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
 export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;
@@ -99,3 +111,4 @@ export type IndividualHeatmapRequest = z.infer<
 export type DynamicTrajectoryRequest = z.infer<
   typeof DynamicTrajectoryRequestSchema
 >;
+export type DifferenceRequest = z.infer<typeof DifferenceRequestSchema>;

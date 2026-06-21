@@ -100,6 +100,11 @@ export const DynamicTrajectoryDtoSchema = z.object({
   values: z.array(z.number()),
 });
 
+export const DifferenceEndpointDtoSchema = z.object({
+  layer: z.number().int(),
+  component: z.string(),
+});
+
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
@@ -112,3 +117,4 @@ export type LayerTrendDto = z.infer<typeof LayerTrendSchema>;
 export type LanguageCell = z.infer<typeof LanguageCellSchema>;
 export type PerLayerResponse = z.infer<typeof PerLayerResponseSchema>;
 export type DynamicTrajectoryDto = z.infer<typeof DynamicTrajectoryDtoSchema>;
+export type DifferenceEndpointDto = z.infer<typeof DifferenceEndpointDtoSchema>;

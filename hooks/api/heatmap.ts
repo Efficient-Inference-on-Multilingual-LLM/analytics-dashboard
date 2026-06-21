@@ -3,10 +3,12 @@ import { apiClient } from "@/lib/api/client";
 import type {
   LayerHeatmapRequest,
   IndividualHeatmapRequest,
+  DifferenceRequest,
 } from "@/types/request";
 import type {
   IndividualHeatmapResponse,
   LayerHeatmapResponse,
+  DifferenceResponse,
 } from "@/types/response";
 
 export function useHeatmap(requests: LayerHeatmapRequest | null) {
@@ -28,6 +30,16 @@ export function useIndividualHeatmap(
         "/heatmap/individual",
         requests!,
       ),
+    enabled: !!requests,
+    staleTime: Infinity,
+  });
+}
+
+export function useDifferenceHeatmap(requests: DifferenceRequest | null) {
+  return useQuery({
+    queryKey: ["differenceHeatmap", requests],
+    queryFn: () =>
+      apiClient.post<DifferenceResponse>("/heatmap/difference", requests!),
     enabled: !!requests,
     staleTime: Infinity,
   });
