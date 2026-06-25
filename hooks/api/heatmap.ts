@@ -15,7 +15,8 @@ export function useHeatmap(requests: LayerHeatmapRequest | null) {
   return useQuery({
     queryKey: ["heatmap", requests],
     queryFn: () => apiClient.post<LayerHeatmapResponse>("/heatmap", requests!),
-    enabled: !!requests,
+    enabled:
+      !!requests && (requests.method_id !== "lape" || requests.top_k != null),
     staleTime: Infinity,
   });
 }
@@ -30,7 +31,8 @@ export function useIndividualHeatmap(
         "/heatmap/individual",
         requests!,
       ),
-    enabled: !!requests,
+    enabled:
+      !!requests && (requests.method !== "lape" || requests.top_k != null),
     staleTime: Infinity,
   });
 }
@@ -40,7 +42,8 @@ export function useDifferenceHeatmap(requests: DifferenceRequest | null) {
     queryKey: ["differenceHeatmap", requests],
     queryFn: () =>
       apiClient.post<DifferenceResponse>("/heatmap/difference", requests!),
-    enabled: !!requests,
+    enabled:
+      !!requests && (requests.method !== "lape" || requests.top_k != null),
     staleTime: Infinity,
   });
 }

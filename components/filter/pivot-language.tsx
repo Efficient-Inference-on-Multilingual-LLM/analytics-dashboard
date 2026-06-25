@@ -29,14 +29,14 @@ const PivotLanguage = ({
   topK,
 }: PivotLanguageProps) => {
   const trajectoryLanguageReady =
-    !!method && modelIds.length > 0 && componentIds.length > 0;
+  !!method && modelIds.length > 0 && componentIds.length > 0 && (method !== "lape" || !!topK);
 
   const trajectoryLanguageRequest = trajectoryLanguageReady
     ? {
         method: method as string,
         model_ids: modelIds as string[],
         component_ids: componentIds as string[],
-        top_k: topK ? Number(topK) : null,
+        top_k: method === "lape" && topK ? Number(topK) : null,
       }
     : null;
   const { data: trajectoryLanguages } = useTrajectoryLanguages(

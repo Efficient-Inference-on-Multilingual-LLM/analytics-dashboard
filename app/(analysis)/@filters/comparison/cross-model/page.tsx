@@ -182,6 +182,7 @@ const CrossModelFilters = () => {
         model={null}
         component={null}
         method={(crossModelState.method ?? undefined) as string | null}
+        topK={crossModelState.top_k ?? null}
         filters={langFilters}
         onChange={(patch) =>
           setCrossModelState({ ...crossModelState, ...patch })

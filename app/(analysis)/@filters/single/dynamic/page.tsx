@@ -72,7 +72,11 @@ const DynamicPageFilter = () => {
     allModels.find((model) => model.id === urlState.model) ?? null;
 
   const handleModelChange = (model: ModelDto | null) => {
-    setUrlState({ ...urlState, model: model ? model.id : null });
+    setUrlState({
+      ...urlState,
+      model: model ? model.id : null,
+      layer_range: null,
+    });
   };
 
   return (
@@ -155,6 +159,7 @@ const DynamicPageFilter = () => {
         model={null}
         component={null}
         method={(urlState.method ?? undefined) as string | null}
+        topK={urlState.top_k ?? null}
         filters={langFilters}
         onChange={(patch) => setUrlState({ ...urlState, ...patch })}
         onReset={() => setUrlState({ ...urlState, ...DEFAULT_FILTERS })}

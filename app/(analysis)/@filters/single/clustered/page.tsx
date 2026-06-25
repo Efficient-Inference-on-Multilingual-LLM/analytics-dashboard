@@ -54,7 +54,11 @@ const ClusteredHeatmapFilter = () => {
         setSelectedModel={(model) => setUrlState({ ...urlState, model: model })}
         selectedComponent={urlState.component ?? null}
         setSelectedComponent={(component) =>
-          setUrlState({ ...urlState, component: component })
+          setUrlState({
+            ...urlState,
+            component: component,
+            layer_range: null,
+          })
         }
       />
       <GroupBy
@@ -92,6 +96,7 @@ const ClusteredHeatmapFilter = () => {
         model={null}
         component={null}
         method={(urlState.method ?? undefined) as string | null}
+        topK={urlState.top_k ?? null}
         filters={langFilters}
         onChange={(patch) => setUrlState({ ...urlState, ...patch })}
         onReset={() => setUrlState({ ...urlState, ...DEFAULT_FILTERS })}

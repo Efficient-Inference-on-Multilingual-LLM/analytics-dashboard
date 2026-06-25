@@ -75,7 +75,12 @@ const LayerDifferenceFilter = () => {
     allComponents.find((comp) => comp.id === urlState.tgt_component) ?? null;
 
   const handleModelChange = (model: ModelDto | null) => {
-    setUrlState({ ...urlState, model: model ? model.id : null });
+    setUrlState({
+      ...urlState,
+      model: model ? model.id : null,
+      src_layer: null,
+      tgt_layer: null,
+    });
   };
 
   const handleSourceComponentChange = (comp: { id: string } | null) => {
@@ -205,6 +210,7 @@ const LayerDifferenceFilter = () => {
         model={null}
         component={null}
         method={(urlState.method ?? undefined) as string | null}
+        topK={urlState.top_k ?? null}
         filters={langFilters}
         onChange={(patch) => setUrlState({ ...urlState, ...patch })}
         onReset={() => setUrlState({ ...urlState, ...DEFAULT_FILTERS })}

@@ -14,6 +14,7 @@ interface LanguageFiltersProps {
   onChange: (patch: Partial<LangFilters>) => void;
   onReset: () => void;
   languageData?: { languages: LanguageDto[] };
+  topK?: string | null;
 }
 
 const LanguageFilters = ({
@@ -22,6 +23,7 @@ const LanguageFilters = ({
   model,
   component,
   filters,
+  topK,
   onChange,
   onReset,
   languageData: externalLanguageData,
@@ -34,6 +36,7 @@ const LanguageFilters = ({
         method_id: method,
         model_id: model,
         component_id: component,
+        top_k: method === "lape" && topK != null ? Number(topK) : null,
       }
     : null;
 

@@ -25,7 +25,8 @@ export function useResultLanguages(request: LanguageResultRequest | null) {
     queryKey: ["result-languages", request],
     queryFn: () =>
       apiClient.post<LanguageResponse>("/languages/results", request!),
-    enabled: !!request,
+    enabled:
+      !!request && (request.method_id !== "lape" || request.top_k != null),
     staleTime: Infinity,
   });
 }

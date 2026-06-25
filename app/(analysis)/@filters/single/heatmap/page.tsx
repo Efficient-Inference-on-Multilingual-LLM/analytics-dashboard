@@ -53,7 +53,9 @@ const HeatmapFilter = () => {
         label="Model"
         methodId={urlState.method ?? null}
         selectedModel={urlState.model ?? null}
-        setSelectedModel={(model) => setUrlState({ ...urlState, model: model })}
+        setSelectedModel={(model) =>
+          setUrlState({ ...urlState, model: model, layer: null })
+        }
         selectedComponent={urlState.component ?? null}
         setSelectedComponent={(component) =>
           setUrlState({ ...urlState, component: component })
@@ -89,6 +91,7 @@ const HeatmapFilter = () => {
         method={(urlState.method ?? undefined) as string | null}
         model={urlState.model ?? undefined}
         component={urlState.component ?? undefined}
+        topK={urlState.top_k ?? null}
         filters={langFilters}
         onChange={(patch) => setUrlState({ ...urlState, ...patch })}
         onReset={() => setUrlState({ ...urlState, ...DEFAULT_FILTERS })}

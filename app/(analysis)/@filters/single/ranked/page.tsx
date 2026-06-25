@@ -48,6 +48,7 @@ const RankedHeatmapFilter = () => {
     }),
     [urlState],
   );
+  console.log(maxLayer, languageCount);
   return (
     <Section title="Ranked Heatmap Filter">
       <MethodSelector
@@ -62,7 +63,14 @@ const RankedHeatmapFilter = () => {
         label="Model"
         methodId={urlState.method ?? null}
         selectedModel={urlState.model ?? null}
-        setSelectedModel={(model) => setUrlState({ ...urlState, model: model })}
+        setSelectedModel={(model) =>
+          setUrlState({
+            ...urlState,
+            model: model,
+            rank_range: null,
+            layer_range: null,
+          })
+        }
         selectedComponent={urlState.component ?? null}
         setSelectedComponent={(component) =>
           setUrlState({ ...urlState, component: component })
@@ -122,6 +130,7 @@ const RankedHeatmapFilter = () => {
         model={null}
         component={null}
         method={(urlState.method ?? undefined) as string | null}
+        topK={urlState.top_k ?? null}
         filters={langFilters}
         onChange={(patch) => setUrlState({ ...urlState, ...patch })}
         onReset={() => setUrlState({ ...urlState, ...DEFAULT_FILTERS })}

@@ -30,6 +30,10 @@ const HeatmapPage = () => {
         method_id: urlState.method as string,
         model_id: urlState.model as string,
         component_id: urlState.component as string,
+        top_k:
+          urlState.method === "lape" && urlState.top_k
+            ? Number(urlState.top_k)
+            : null,
       }
     : null;
   const { data: languages } = useResultLanguages(languageRequest);
@@ -68,7 +72,10 @@ const HeatmapPage = () => {
         component_id: urlState.component as string,
         layer_indices: urlState.layer != null ? [urlState.layer] : null,
         languages: effectiveLanguages,
-        top_k: urlState.top_k ? Number(urlState.top_k) : null,
+        top_k:
+          urlState.method === "lape" && urlState.top_k
+            ? Number(urlState.top_k)
+            : null,
         sort_by: urlState.group_by,
       }
     : null;
@@ -90,6 +97,10 @@ const HeatmapPage = () => {
         linkage_method: urlState.linkage as string,
         cluster_cutoff:
           urlState.cluster_cutoff > 0 ? urlState.cluster_cutoff / 100 : 0,
+        top_k:
+          urlState.method === "lape" && urlState.top_k
+            ? Number(urlState.top_k)
+            : null,
       }
     : null;
   const { data: dendogramData, isLoading: isDendogramLoading } =

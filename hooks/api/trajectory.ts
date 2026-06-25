@@ -25,7 +25,7 @@ export function useTrajectoryLanguages(
         "/trajectory/languages",
         request!,
       ),
-    enabled: !!request,
+    enabled: !!request && (request.method !== "lape" || request.top_k != null),
     staleTime: Infinity,
   });
 }
@@ -51,7 +51,8 @@ export function useTrajectory(request: TrajectoryRequest | null) {
   return useQuery({
     queryKey: ["trajectory", request],
     queryFn: () => apiClient.post<TrajectoryResponse>("/trajectory", request!),
-    enabled: !!request,
+    enabled:
+      !!request && (request.method_id !== "lape" || request.top_k != null),
     staleTime: Infinity,
   });
 }
@@ -74,7 +75,7 @@ export function useDynamicTrajectory(request: DynamicTrajectoryRequest | null) {
         "/trajectory/dynamic-component",
         request!,
       ),
-    enabled: !!request,
+    enabled: !!request && (request.method !== "lape" || request.top_k != null),
     staleTime: Infinity,
   });
 }
