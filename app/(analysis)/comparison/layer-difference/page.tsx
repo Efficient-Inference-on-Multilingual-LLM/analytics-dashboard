@@ -6,9 +6,11 @@ import { useDifferenceHeatmapUrlState } from "@/hooks/url-state/states";
 import { useDifferenceHeatmap } from "@/hooks/api/heatmap";
 import SortGroupLegend from "@/components/graph/sort-group-legend";
 import DifferenceHeatmap from "@/components/graph/single-layer/difference-heatmap";
+import { useLanguageRegistry } from "@/hooks/api/languages";
 
 const LayerDifferencePage = () => {
   const [urlState] = useDifferenceHeatmapUrlState();
+  const languageRegistry = useLanguageRegistry();
 
   const ready =
     !!urlState.method &&
@@ -44,7 +46,11 @@ const LayerDifferencePage = () => {
       </div>
       {differenceData && (
         <div className="mt-4 flex justify-center">
-          <DifferenceHeatmap data={differenceData} />
+          <DifferenceHeatmap
+            data={differenceData}
+            sortGroups={sortGroups}
+            languageRegistry={languageRegistry}
+          />
         </div>
       )}
     </Section>

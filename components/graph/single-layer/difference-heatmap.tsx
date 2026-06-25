@@ -2,40 +2,50 @@
 import { useMemo } from "react";
 import type { Data, Layout } from "plotly.js";
 import type { DifferenceResponse } from "@/types/response";
+import type { LanguageGroupDto } from "@/types/dto";
 import dynamic from "next/dynamic";
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
 
 interface Props {
   data: DifferenceResponse;
-  nameOf?: (code: string) => string;
-  colorOf?: (code: string) => string;
+  sortGroups?: LanguageGroupDto[];
+  languageRegistry?: Map<string, string>;
 }
 
-const DifferenceHeatmap = ({ data, nameOf, colorOf }: Props) => {
-  const labels = useMemo(() => {
-    return data.languages.map((code) => {
-      const name = nameOf?.(code) ?? code;
-      const color = colorOf?.(code);
-      return color
-        ? `<span style="color:${color};font-weight:bold">${name}</span>`
-        : name;
-    });
-  }, [data, nameOf, colorOf]);
+const DifferenceHeatmap = ({ data, sortGroups, languageRegistry }: Props) => {
+  const languageToColor = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const group of sortGroups ?? []) {
+      for (const lang of group.languages) {
+        map.set(lang, group.color);
+      }
+    }
+    return map;
+  }, [sortGroups]);
 
-  const tickvals = useMemo(() => data.languages.map((_, i) => i), [data]);
+  const coloredLabels = useMemo(
+    () =>
+      data.languages.map((lang) => {
+        const color = languageToColor.get(lang);
+        const displayName = languageRegistry?.get(lang) ?? lang;
+        if (!color) return displayName;
+        return `<span style="color:${color}"><b>${displayName}</b></span>`;
+      }),
+    [data.languages, languageToColor, languageRegistry],
+  );
 
   const trace = useMemo<Data>(
     () => ({
       type: "heatmap",
       z: data.matrix,
-      x: tickvals,
-      y: tickvals,
+      x: data.languages,
+      y: data.languages,
       colorscale: "RdBu",
       zmin: data.value_range[0],
       zmax: data.value_range[1],
       colorbar: { title: { text: `${data.metric_label} Difference` } },
     }),
-    [data, tickvals],
+    [data],
   );
 
   const layout = useMemo<Partial<Layout>>(
@@ -45,27 +55,29 @@ const DifferenceHeatmap = ({ data, nameOf, colorOf }: Props) => {
         x: 0.5,
         xanchor: "center",
       },
-      width: 1100,
-      height: 1100,
+      width: 1400,
+      height: 1400,
       xaxis: {
         tickangle: -90,
         side: "bottom",
         tickmode: "array",
-        tickvals,
-        ticktext: labels,
+        tickvals: data.languages,
+        ticktext: coloredLabels,
         tickfont: { size: 11 },
+        automargin: true,
       },
       yaxis: {
         autorange: "reversed",
         side: "left",
         tickmode: "array",
-        tickvals,
-        ticktext: labels,
+        tickvals: data.languages,
+        ticktext: coloredLabels,
         tickfont: { size: 11 },
+        automargin: true,
       },
-      margin: { l: 0, b: 10, t: 60, r: 0 },
+      margin: { l: 120, b: 140, t: 80, r: 20 },
     }),
-    [data, labels, tickvals],
+    [data, coloredLabels],
   );
 
   return (
