@@ -17,3 +17,11 @@ export function useComponents() {
     staleTime: Infinity,
   });
 }
+
+export function useModelsRouter() {
+  return useQuery({
+    queryKey: ["models-router"],
+    queryFn: () => apiClient.get<ModelResponse>("/routing/models"),
+    staleTime: Infinity,
+  });
+}

@@ -43,11 +43,6 @@ const NAV = [
     label: "Comparison",
     pages: [
       {
-        href: "/comparison/checkpoint",
-        label: "Checkpoint Trace",
-        desc: "Two languages across layers",
-      },
-      {
         href: "/comparison/cross-model",
         label: "Cross-Model Aggregate",
         desc: "Compare multiple models",
@@ -56,6 +51,31 @@ const NAV = [
         href: "/comparison/layer-difference",
         label: "Layer Difference",
         desc: "Source vs target layer",
+      },
+    ],
+  },
+  {
+    label: "Logit Analysis",
+    pages: [
+      {
+        href: "/logits/routing",
+        label: "Routing Overview",
+        desc: "Routing logits overview",
+      },
+      {
+        href: "/logits/dynamic",
+        label: "Dynamic Logits",
+        desc: "Across layers",
+      },
+      {
+        href: "/logits/heatmap",
+        label: "Logit Heatmap",
+        desc: "Heatmap visualization of logits",
+      },
+      {
+        href: "/logits/sentences",
+        label: "Sentence Logits",
+        desc: "Logit visualization for sentences",
       },
     ],
   },

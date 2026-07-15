@@ -6,6 +6,7 @@ import {
   individualHeatmapRankParser,
   dynamicTrajectoryParser,
   differenceHeatmapParser,
+  routingOverviewParser,
 } from "./parser";
 
 export const PAGE_PARSERS = {
@@ -16,6 +17,7 @@ export const PAGE_PARSERS = {
   individualHeatmapRank: individualHeatmapRankParser,
   dynamicTrajectory: dynamicTrajectoryParser,
   differenceHeatmap: differenceHeatmapParser,
+  routingOverview: routingOverviewParser,
 };
 
 export type PageKey = keyof typeof PAGE_PARSERS;
@@ -30,4 +32,6 @@ export const PAGE_ROUTES: Record<PageKey, string> = {
   differenceHeatmap: "/comparison/layer-difference",
 
   layerTrend: "/trends/cluster",
+
+  routingOverview: "/logits/routing",
 };
