@@ -28,6 +28,11 @@ const arrayEqual = (a: string[], b: string[]) => {
   return a.length === b.length && a.every((v, i) => v === b[i]);
 };
 
+const parseAsBool = createParser({
+  parse: (v) => v === "true",
+  serialize: (v: boolean) => String(v),
+});
+
 const baseStringArray = parseAsArrayOf(parseAsString);
 
 const strArray = () =>
@@ -203,6 +208,17 @@ export const differenceHeatmapParser = {
   c: parseAsString,
 };
 
+export const routingOverviewParser = {
+  model: parseAsString.withDefault(""),
+  pivot_lang: parseAsString.withDefault(""),
+  source_langs: parseAsLangs.withDefault([]),
+  layer: parseAsInteger.withDefault(0),
+  exclude_homographs: parseAsBool.withDefault(false),
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
 export type HeatmapUrlState = {
   [K in keyof typeof heatmapParser]: ReturnType<
     (typeof heatmapParser)[K]["parse"]
@@ -242,5 +258,11 @@ export type DynamicHeatmapUrlState = {
 export type DifferenceHeatmapUrlState = {
   [K in keyof typeof differenceHeatmapParser]: ReturnType<
     (typeof differenceHeatmapParser)[K]["parse"]
+  >;
+};
+
+export type RoutingOverviewUrlState = {
+  [K in keyof typeof routingOverviewParser]: ReturnType<
+    (typeof routingOverviewParser)[K]["parse"]
   >;
 };

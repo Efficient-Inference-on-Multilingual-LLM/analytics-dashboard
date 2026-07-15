@@ -12,6 +12,7 @@ import {
   PerLayerResponseSchema,
   DynamicTrajectoryDtoSchema,
   DifferenceEndpointDtoSchema,
+  RoutingDtoSchema,
 } from "./dto";
 import { z } from "zod";
 
@@ -120,6 +121,14 @@ export const DifferenceResponseSchema = z.object({
   target: DifferenceEndpointDtoSchema,
 });
 
+// RoutingsResponse Schema
+export const RoutingsResponseSchema = z.object({
+  models: z.array(z.string()),
+  layers: z.array(z.number().int()),
+  rows: z.array(RoutingDtoSchema),
+});
+
+export type RoutingsResponse = z.infer<typeof RoutingsResponseSchema>;
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
 export type MethodResponse = z.infer<typeof MethodResponseSchema>;
 export type ComponentResponse = z.infer<typeof ComponentResponseSchema>;

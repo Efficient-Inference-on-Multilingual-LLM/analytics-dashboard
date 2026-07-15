@@ -45,3 +45,11 @@ export function useLanguageRegistry() {
 
   return languageRegitry;
 }
+
+export function useRoutingLanguage() {
+  return useQuery({
+    queryKey: ["routing-languages"],
+    queryFn: () => apiClient.get<LanguageResponse>("/routing/languages"),
+    staleTime: Infinity,
+  });
+}

@@ -7,6 +7,7 @@ import {
   individualHeatmapRankParser,
   dynamicTrajectoryParser,
   differenceHeatmapParser,
+  routingOverviewParser,
 } from "@/lib/url-state/parser";
 
 export function useHeatmapUrlState() {
@@ -35,4 +36,8 @@ export function useDynamicTrajectoryUrlState() {
 
 export function useDifferenceHeatmapUrlState() {
   return useQueryStates(differenceHeatmapParser);
+}
+
+export function useRoutingOverviewUrlState() {
+  return useQueryStates(routingOverviewParser);
 }

@@ -105,6 +105,19 @@ export const DifferenceEndpointDtoSchema = z.object({
   component: z.string(),
 });
 
+export const RoutingDtoSchema = z.object({
+  model_id: z.string(),
+  source_lang: z.string(),
+  pivot_lang: z.string(),
+  resource_class: z.number().int(),
+  layer: z.number().int(),
+  n_position: z.number().int(),
+  n_match: z.number().int(),
+  routing_rate: z.number(), // handles float/double
+  n_match_unamb: z.number().int(),
+  routing_rate_unamb: z.number(),
+});
+
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
@@ -118,3 +131,4 @@ export type LanguageCell = z.infer<typeof LanguageCellSchema>;
 export type PerLayerResponse = z.infer<typeof PerLayerResponseSchema>;
 export type DynamicTrajectoryDto = z.infer<typeof DynamicTrajectoryDtoSchema>;
 export type DifferenceEndpointDto = z.infer<typeof DifferenceEndpointDtoSchema>;
+export type RoutingDto = z.infer<typeof RoutingDtoSchema>;

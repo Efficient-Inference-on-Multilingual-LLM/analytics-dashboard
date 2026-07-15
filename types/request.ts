@@ -97,6 +97,13 @@ export const DifferenceRequestSchema = z.object({
   top_k: z.number().int().nullish(),
 });
 
+export const RoutingsRequestSchema = z.object({
+  model_id: z.string(),
+  source_lang: z.array(z.string()).nullable(),
+  pivot_lang: z.string().nullable(),
+  layer: z.number().int().nullable(),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
 export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;
@@ -112,3 +119,4 @@ export type DynamicTrajectoryRequest = z.infer<
   typeof DynamicTrajectoryRequestSchema
 >;
 export type DifferenceRequest = z.infer<typeof DifferenceRequestSchema>;
+export type RoutingsRequest = z.infer<typeof RoutingsRequestSchema>;
