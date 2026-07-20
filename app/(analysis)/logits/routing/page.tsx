@@ -23,7 +23,7 @@ const LogitsRouting = () => {
     ? {
         model_id: routingState.model as string,
         source_lang: routingState.source_langs as string[],
-        pivot_lang: routingState.pivot_lang as string,
+        pivot_lang: [routingState.pivot_lang as string],
         layer: routingState.layer ? Number(routingState.layer) : null,
       }
     : null;
@@ -47,7 +47,7 @@ const LogitsRouting = () => {
 
   const bars: RoutingBar[] = useMemo(() => {
     const rows = (routingData?.rows ?? []).filter(
-      (r) => r.source_lang !== r.pivot_lang, // drop the self-cell
+      (r) => r.source_lang !== r.pivot_lang,
     );
     return rows
       .map((r) => ({
@@ -59,9 +59,6 @@ const LogitsRouting = () => {
       }))
       .sort((a, b) => b.joshi - a.joshi || a.label.localeCompare(b.label));
   }, [routingData, meta, rateKey]);
-
-  // const pivotName =
-  //   meta[routingState.pivot_lang as string]?.name ?? routingState.pivot_lang;
 
   if (!ready) return <div>Select a model, pivot language, and layer.</div>;
   if (isLoading) return <div>Loading…</div>;
