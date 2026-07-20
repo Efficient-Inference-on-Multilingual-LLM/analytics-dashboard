@@ -1,9 +1,24 @@
-import React from 'react'
+"use client";
+
+import React from "react";
+import Section from "@/components/filter/section";
+import ModelRouter from "@/components/filter/model-router";
+import { useLogitsSentenceUrlState } from "@/hooks/url-state/states";
 
 const LogitsSentencesFilter = () => {
-  return (
-    <div>LogitsSentences</div>
-  )
-}
+  const [logitsSentenceState, setLogitsSentenceState] =
+    useLogitsSentenceUrlState();
 
-export default LogitsSentencesFilter
+  return (
+    <Section title="Logits Sentences Filters">
+      <ModelRouter
+        selectedModel={logitsSentenceState.model}
+        setSelectedModel={(model) =>
+          setLogitsSentenceState({ ...logitsSentenceState, model })
+        }
+      />
+    </Section>
+  );
+};
+
+export default LogitsSentencesFilter;

@@ -1,9 +1,24 @@
-import React from 'react'
+"use client";
+
+import React from "react";
+import Section from "@/components/filter/section";
+import ModelRouter from "@/components/filter/model-router";
+import { useLogitsHeatmapUrlState } from "@/hooks/url-state/states";
 
 const LogitsHeatmapFilter = () => {
-  return (
-    <div>LogitsHeatmap</div>
-  )
-}
+  const [logitsHeatmapState, setLogitsHeatmapState] =
+    useLogitsHeatmapUrlState();
 
-export default LogitsHeatmapFilter
+  return (
+    <Section title="Logits Heatmap Filters">
+      <ModelRouter
+        selectedModel={logitsHeatmapState.model}
+        setSelectedModel={(model) =>
+          setLogitsHeatmapState({ ...logitsHeatmapState, model })
+        }
+      />
+    </Section>
+  );
+};
+
+export default LogitsHeatmapFilter;
