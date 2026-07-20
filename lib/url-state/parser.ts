@@ -219,6 +219,27 @@ export const routingOverviewParser = {
   c: parseAsString,
 };
 
+export const logitsDynamicParser = {
+  model: parseAsString.withDefault(""),
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
+export const logitsHeatmapParser = {
+  model: parseAsString.withDefault(""),
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
+export const logitsSentenceParser = {
+  model: parseAsString.withDefault(""),
+
+  s: parseAsString,
+  c: parseAsString,
+};
+
 export type HeatmapUrlState = {
   [K in keyof typeof heatmapParser]: ReturnType<
     (typeof heatmapParser)[K]["parse"]
@@ -264,5 +285,23 @@ export type DifferenceHeatmapUrlState = {
 export type RoutingOverviewUrlState = {
   [K in keyof typeof routingOverviewParser]: ReturnType<
     (typeof routingOverviewParser)[K]["parse"]
+  >;
+};
+
+export type LogitsDynamicUrlState = {
+  [K in keyof typeof logitsDynamicParser]: ReturnType<
+    (typeof logitsDynamicParser)[K]["parse"]
+  >;
+};
+
+export type LogitsHeatmapUrlState = {
+  [K in keyof typeof logitsHeatmapParser]: ReturnType<
+    (typeof logitsHeatmapParser)[K]["parse"]
+  >;
+};
+
+export type LogitsSentenceUrlState = {
+  [K in keyof typeof logitsSentenceParser]: ReturnType<
+    (typeof logitsSentenceParser)[K]["parse"]
   >;
 };

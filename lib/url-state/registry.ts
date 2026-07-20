@@ -7,6 +7,9 @@ import {
   dynamicTrajectoryParser,
   differenceHeatmapParser,
   routingOverviewParser,
+  logitsDynamicParser,
+  logitsHeatmapParser,
+  logitsSentenceParser,
 } from "./parser";
 
 export const PAGE_PARSERS = {
@@ -18,6 +21,9 @@ export const PAGE_PARSERS = {
   dynamicTrajectory: dynamicTrajectoryParser,
   differenceHeatmap: differenceHeatmapParser,
   routingOverview: routingOverviewParser,
+  logitsDynamic: logitsDynamicParser,
+  logitsHeatmap: logitsHeatmapParser,
+  logitsSentence: logitsSentenceParser,
 };
 
 export type PageKey = keyof typeof PAGE_PARSERS;
@@ -34,4 +40,7 @@ export const PAGE_ROUTES: Record<PageKey, string> = {
   layerTrend: "/trends/cluster",
 
   routingOverview: "/logits/routing",
+  logitsDynamic: "/logits/dynamic",
+  logitsHeatmap: "/logits/heatmap",
+  logitsSentence: "/logits/sentence",
 };

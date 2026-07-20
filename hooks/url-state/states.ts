@@ -8,6 +8,9 @@ import {
   dynamicTrajectoryParser,
   differenceHeatmapParser,
   routingOverviewParser,
+  logitsDynamicParser,
+  logitsHeatmapParser,
+  logitsSentenceParser,
 } from "@/lib/url-state/parser";
 
 export function useHeatmapUrlState() {
@@ -40,4 +43,16 @@ export function useDifferenceHeatmapUrlState() {
 
 export function useRoutingOverviewUrlState() {
   return useQueryStates(routingOverviewParser);
+}
+
+export function useLogitsDynamicUrlState() {
+  return useQueryStates(logitsDynamicParser);
+}
+
+export function useLogitsHeatmapUrlState() {
+  return useQueryStates(logitsHeatmapParser);
+}
+
+export function useLogitsSentenceUrlState() {
+  return useQueryStates(logitsSentenceParser);
 }
