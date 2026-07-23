@@ -58,6 +58,10 @@ const LogitsDynamic = () => {
       pageKey="logitsDynamic"
       state={routingState}
     >
+      <p>
+        The rise is where the concept forms, the fall is where it translates
+        out.
+      </p>
       {series.length > 0 && <LayerDynamicsChart series={series} />}
     </Section>
   );
