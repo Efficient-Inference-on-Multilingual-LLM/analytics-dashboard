@@ -38,6 +38,7 @@ const LogitsDynamicFilter = () => {
         label="Pivot Languages"
         selected={routingState.pivot_langs}
         options={options}
+        placeholder="Select pivot languages"
         onChange={(value) =>
           setRoutingState({ ...routingState, pivot_langs: value })
         }
