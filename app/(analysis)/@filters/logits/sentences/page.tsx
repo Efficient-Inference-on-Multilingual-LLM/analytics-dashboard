@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Section from "@/components/filter/section";
 import ModelRouter from "@/components/filter/model-router";
 import { useLogitsSentenceUrlState } from "@/hooks/url-state/states";
@@ -25,10 +25,14 @@ const LogitsSentencesFilter = () => {
     logitsSentenceState.source_lang,
   );
 
-  const options = (decoderSentences?.sentences ?? []).map((s) => ({
-    value: s.sentence_id,
-    label: `#${s.sentence_id} — ${s.text ?? ""}`,
-  }));
+  const options = useMemo(
+    () =>
+      (decoderSentences?.sentences ?? []).map((s) => ({
+        value: s.sentence_id,
+        label: `#${s.sentence_id} — ${s.text ?? ""}`,
+      })),
+    [decoderSentences],
+  );
 
   const selectedSentence =
     options.find((o) => o.value === logitsSentenceState.sentence_id) ?? null;

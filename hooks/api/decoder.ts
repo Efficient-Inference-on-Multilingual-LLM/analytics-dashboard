@@ -19,7 +19,7 @@ export function useDecoderSentences(
       : null;
 
   return useQuery({
-    queryKey: ["decoder-sentences"],
+    queryKey: ["decoder-sentences", request],
     queryFn: () =>
       apiClient.get<SentenceDecoderResponse>(
         `/decode/${modelId?.replace("/", "__")}/${langCode}/sentences`,

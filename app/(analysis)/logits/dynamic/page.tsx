@@ -58,7 +58,7 @@ const LogitsDynamic = () => {
       pageKey="logitsDynamic"
       state={routingState}
     >
-      <LayerDynamicsChart series={series} />
+      {series.length > 0 && <LayerDynamicsChart series={series} />}
     </Section>
   );
 };
