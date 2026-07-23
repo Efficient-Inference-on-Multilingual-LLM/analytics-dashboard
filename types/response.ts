@@ -13,6 +13,8 @@ import {
   DynamicTrajectoryDtoSchema,
   DifferenceEndpointDtoSchema,
   RoutingDtoSchema,
+  SentenceDtoSchema,
+  DecoderDtoSchema,
 } from "./dto";
 import { z } from "zod";
 
@@ -128,6 +130,22 @@ export const RoutingsResponseSchema = z.object({
   rows: z.array(RoutingDtoSchema),
 });
 
+export const SentenceDecoderResponseSchema = z.object({
+  model_id: z.string(),
+  lang_code: z.string(),
+  sentences: z.array(SentenceDtoSchema),
+});
+
+export const DecoderResponseSchema = z.object({
+  model_id: z.string(),
+  lang_code: z.string(),
+  sentence_id: z.number().int(),
+  layers: z.array(z.number().int()),
+  positions: z.array(z.number().int()),
+  input_tokens: z.array(z.string()),
+  cells: z.array(DecoderDtoSchema),
+});
+
 export type RoutingsResponse = z.infer<typeof RoutingsResponseSchema>;
 export type ModelResponse = z.infer<typeof ModelResponseSchema>;
 export type MethodResponse = z.infer<typeof MethodResponseSchema>;
@@ -147,3 +165,7 @@ export type DynamicTrajectoryResponse = z.infer<
   typeof DynamicTrajectoryResponseSchema
 >;
 export type DifferenceResponse = z.infer<typeof DifferenceResponseSchema>;
+export type SentenceDecoderResponse = z.infer<
+  typeof SentenceDecoderResponseSchema
+>;
+export type DecoderResponse = z.infer<typeof DecoderResponseSchema>;

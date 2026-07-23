@@ -118,6 +118,19 @@ export const RoutingDtoSchema = z.object({
   routing_rate_unamb: z.number(),
 });
 
+export const SentenceDtoSchema = z.object({
+  sentence_id: z.number().int(),
+  text: z.string(),
+});
+
+export const DecoderDtoSchema = z.object({
+  layer: z.number().int(),
+  position: z.number().int(),
+  input_token_str: z.string(),
+  token: z.string(),
+  prob: z.number(),
+});
+
 export type MethodDto = z.infer<typeof MethodDtoSchema>;
 export type ModelDto = z.infer<typeof ModelDtoSchema>;
 export type ComponentDto = z.infer<typeof ComponentDtoSchema>;
@@ -132,3 +145,5 @@ export type PerLayerResponse = z.infer<typeof PerLayerResponseSchema>;
 export type DynamicTrajectoryDto = z.infer<typeof DynamicTrajectoryDtoSchema>;
 export type DifferenceEndpointDto = z.infer<typeof DifferenceEndpointDtoSchema>;
 export type RoutingDto = z.infer<typeof RoutingDtoSchema>;
+export type SentenceDto = z.infer<typeof SentenceDtoSchema>;
+export type DecoderDto = z.infer<typeof DecoderDtoSchema>;
