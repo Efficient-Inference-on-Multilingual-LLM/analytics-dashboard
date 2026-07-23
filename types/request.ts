@@ -104,6 +104,12 @@ export const RoutingsRequestSchema = z.object({
   layer: z.number().int().nullable(),
 });
 
+export const DecoderRequestSchema = z.object({
+  model_id: z.string(),
+  source_lang: z.string(),
+  sentence_id: z.number().int(),
+});
+
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
 export type DendogramRequest = z.infer<typeof DendogramRequestSchema>;
 export type LanguageResultRequest = z.infer<typeof LanguageResultRequestSchema>;
@@ -120,3 +126,4 @@ export type DynamicTrajectoryRequest = z.infer<
 >;
 export type DifferenceRequest = z.infer<typeof DifferenceRequestSchema>;
 export type RoutingsRequest = z.infer<typeof RoutingsRequestSchema>;
+export type DecoderRequest = z.infer<typeof DecoderRequestSchema>;
