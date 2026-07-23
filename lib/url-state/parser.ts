@@ -230,6 +230,8 @@ export const logitsDynamicParser = {
 
 export const logitsHeatmapParser = {
   model: parseAsString.withDefault(""),
+  layer: parseAsInteger.withDefault(0),
+  exclude_homographs: parseAsBool.withDefault(false),
 
   s: parseAsString,
   c: parseAsString,
