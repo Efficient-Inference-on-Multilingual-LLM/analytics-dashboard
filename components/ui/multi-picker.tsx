@@ -21,6 +21,7 @@ interface MultiPickerProps {
   label: string;
   selected: string[];
   options: { value: string; label: string }[];
+  placeholder?: string;
   onChange: (v: string[]) => void;
 }
 
@@ -28,6 +29,7 @@ const MultiPicker = ({
   label,
   selected,
   options,
+  placeholder,
   onChange,
 }: MultiPickerProps) => {
   const toogle = (value: string) => {
@@ -59,7 +61,9 @@ const MultiPicker = ({
           >
             <span className="truncate text-left">
               {selected.length === 0 ? (
-                <span className="text-muted-foreground">All</span>
+                <span className="text-muted-foreground">
+                  {placeholder ? placeholder : "All"}
+                </span>
               ) : (
                 `${selected.length} selected`
               )}
