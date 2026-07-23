@@ -6,6 +6,7 @@ import { useLogitsSentenceUrlState } from "@/hooks/url-state/states";
 import { useDecoder, useDecoderSentences } from "@/hooks/api/decoder";
 import { DecoderRequest } from "@/types/request";
 import PerExampleGrid from "@/components/graph/logit-lens/per-example-grid";
+import Loading from "./loading";
 
 const LogitsSentences = () => {
   const [logitsSentenceState] = useLogitsSentenceUrlState();
@@ -35,7 +36,7 @@ const LogitsSentences = () => {
 
   console.log("request", request);
 
-  const { data: decoderData } = useDecoder(request);
+  const { data: decoderData, isLoading } = useDecoder(request);
 
   console.log("decoderData", decoderData);
 
@@ -57,7 +58,11 @@ const LogitsSentences = () => {
           </div>
         )}
       </div>
-      {decoderData && <PerExampleGrid data={decoderData} />}
+      {isLoading ? (
+        <Loading />
+      ) : decoderData ? (
+        <PerExampleGrid data={decoderData} />
+      ) : null}
     </Section>
   );
 };
