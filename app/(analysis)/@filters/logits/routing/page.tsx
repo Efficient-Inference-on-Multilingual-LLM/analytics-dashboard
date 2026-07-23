@@ -73,6 +73,7 @@ const LogitsRoutingFilter = () => {
         onChange={(value) =>
           setRoutingState({ ...routingState, source_langs: value })
         }
+        placeholder="Select source language"
       />
       <LayerSlider
         title="Layer"
