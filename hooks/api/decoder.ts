@@ -37,3 +37,11 @@ export function useDecoder(request: DecoderRequest | null) {
     staleTime: Infinity,
   });
 }
+
+export function useDecoderLanguage() {
+  return useQuery({
+    queryKey: ["decoder-language"],
+    queryFn: () => apiClient.get<DecoderResponse>(`/decode/languages`),
+    staleTime: Infinity,
+  });
+}
