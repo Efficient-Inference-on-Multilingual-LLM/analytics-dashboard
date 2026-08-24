@@ -11,12 +11,14 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import { useRoutingLanguage } from "@/hooks/api/languages";
+import { useDecoderLanguage } from "@/hooks/api/decoder";
 
 interface LanguageRouterProps {
   label: string;
   value?: string | null;
   onChange: (code: string | null) => void;
   placeholder?: string;
+  decodes?: boolean;
 }
 
 const LanguageRouter = ({
@@ -24,12 +26,16 @@ const LanguageRouter = ({
   value,
   onChange,
   placeholder,
+  decodes = false,
 }: LanguageRouterProps) => {
-  const { data } = useRoutingLanguage();
+  const decoderResult = useDecoderLanguage();
+  const routingResult = useRoutingLanguage();
+
+  const data = decodes ? decoderResult.data : routingResult.data;
 
   const options = useMemo(
     () =>
-      (data?.languages ?? [])
+      (data && "languages" in data ? data.languages : [])
         .map((l) => ({ id: l.code, label: l.name }))
         .sort((a, b) => a.label.localeCompare(b.label)),
     [data],

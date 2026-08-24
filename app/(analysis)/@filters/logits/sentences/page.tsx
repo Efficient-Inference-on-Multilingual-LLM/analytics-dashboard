@@ -60,6 +60,7 @@ const LogitsSentencesFilter = () => {
           })
         }
         placeholder="Select a source language"
+        decodes={true}
       />
       <div className="flex flex-col w-full gap-3">
         <Label className="text-sm px-1">Sentence</Label>
