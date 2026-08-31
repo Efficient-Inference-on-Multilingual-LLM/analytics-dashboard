@@ -15,6 +15,8 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import { Label } from "@/components/ui/label";
+import NormalizedSelector from "@/components/filter/norm-selector";
+import LensMethodSelection from "@/components/filter/lens-method";
 
 const LogitsSentencesFilter = () => {
   const [logitsSentenceState, setLogitsSentenceState] =
@@ -39,6 +41,7 @@ const LogitsSentencesFilter = () => {
 
   return (
     <Section title="Logits Sentences Filters">
+      <LensMethodSelection />
       <ModelRouter
         selectedModel={logitsSentenceState.model}
         setSelectedModel={(model) =>
@@ -87,6 +90,15 @@ const LogitsSentencesFilter = () => {
           </ComboboxContent>
         </Combobox>
       </div>
+      <NormalizedSelector
+        checked={logitsSentenceState.normalized}
+        onChange={(normalized) =>
+          setLogitsSentenceState({
+            ...logitsSentenceState,
+            normalized,
+          })
+        }
+      />
     </Section>
   );
 };

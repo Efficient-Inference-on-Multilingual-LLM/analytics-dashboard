@@ -127,8 +127,10 @@ export const DecoderDtoSchema = z.object({
   layer: z.number().int(),
   position: z.number().int(),
   input_token_str: z.string(),
-  token: z.string(),
-  prob: z.number(),
+  token: z.array(z.string()),
+  prob: z.array(z.number()),
+  mass_covered: z.number(),
+  hook: z.string(),
 });
 
 export type MethodDto = z.infer<typeof MethodDtoSchema>;

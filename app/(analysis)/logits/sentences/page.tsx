@@ -21,24 +21,18 @@ const LogitsSentences = () => {
     logitsSentenceState.source_lang,
   );
 
-  console.log("model", logitsSentenceState.model);
-  console.log("source_lang", logitsSentenceState.source_lang);
-  console.log("sentence_id", logitsSentenceState.sentence_id);
-  console.log("ready", ready);
-
   const request: DecoderRequest | null = ready
     ? {
         model_id: logitsSentenceState.model as string,
         lang_code: logitsSentenceState.source_lang as string,
         sentence_id: logitsSentenceState.sentence_id as number,
+        normed: logitsSentenceState.normalized as boolean,
       }
     : null;
 
   console.log("request", request);
 
   const { data: decoderData, isLoading } = useDecoder(request);
-
-  console.log("decoderData", decoderData);
 
   const selectedSentence =
     decoderSentences?.sentences.find(
