@@ -241,6 +241,7 @@ export const logitsSentenceParser = {
   model: parseAsString.withDefault(""),
   source_lang: parseAsString.withDefault(""),
   sentence_id: parseAsInteger,
+  normalized: parseAsBool.withDefault(true),
 
   s: parseAsString,
   c: parseAsString,

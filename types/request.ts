@@ -108,6 +108,7 @@ export const DecoderRequestSchema = z.object({
   model_id: z.string(),
   lang_code: z.string(),
   sentence_id: z.number().int(),
+  normed: z.boolean().optional(),
 });
 
 export type LayerHeatmapRequest = z.infer<typeof LayerHeatmapRequestSchema>;
