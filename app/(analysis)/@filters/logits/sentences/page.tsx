@@ -41,7 +41,15 @@ const LogitsSentencesFilter = () => {
 
   return (
     <Section title="Logits Sentences Filters">
-      <LensMethodSelection />
+      <LensMethodSelection
+        value={logitsSentenceState.lens}
+        onChange={(lens) =>
+          setLogitsSentenceState({
+            ...logitsSentenceState,
+            lens: lens as "logit_lens" | "tuned_lens" | null,
+          })
+        }
+      />
       <ModelRouter
         selectedModel={logitsSentenceState.model}
         setSelectedModel={(model) =>

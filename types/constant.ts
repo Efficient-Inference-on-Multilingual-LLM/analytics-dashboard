@@ -34,3 +34,8 @@ export const CLUSTERING_FACTORS = [
   { value: "phonetics", label: "Phonetics" },
   { value: "tokenization", label: "Tokenization" },
 ];
+
+export const LENS_METHODS = [
+  { value: "logit_lens", label: "Logit Lens" },
+  { value: "tuned_lens", label: "Tuned Lens" },
+];

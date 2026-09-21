@@ -8,23 +8,37 @@ import {
   ComboboxList,
 } from "../ui/combobox";
 import { Label } from "../ui/label";
+import { LENS_METHODS } from "@/types/constant";
 
-const LENS_METHODS = [{ id: "logit_lens", label: "Logit Lens" }];
+type LensMethodValue = (typeof LENS_METHODS)[number]["value"];
 
-// this is the locked lens method for now, since we only have one lens method implemented
-const LOCKED = LENS_METHODS[0];
+interface LensMethodProps {
+  value: LensMethodValue;
+  onChange: (value: LensMethodValue) => void;
+}
 
-const LensMethodSelection = () => {
+const LensMethodSelection = ({ value, onChange }: LensMethodProps) => {
+  type LensMethod = (typeof LENS_METHODS)[number];
+  const lensMethodObj =
+    LENS_METHODS.find((option) => option.value === value) ?? null;
+
+  const handleLensMethodChange = (option: LensMethod | null) => {
+    onChange(option ? option.value : "logit_lens");
+  };
   return (
     <div className="flex flex-col w-full gap-3">
       <Label className="text-sm px-1">Lens Method</Label>
-      <Combobox items={LENS_METHODS} value={LOCKED} disabled>
+      <Combobox
+        items={LENS_METHODS}
+        value={lensMethodObj}
+        onValueChange={handleLensMethodChange}
+      >
         <ComboboxInput placeholder="Select a lens method" />
         <ComboboxContent>
           <ComboboxEmpty>No lens methods found.</ComboboxEmpty>
           <ComboboxList>
-            {(item) => (
-              <ComboboxItem key={item.id} value={item}>
+            {(item: LensMethod) => (
+              <ComboboxItem key={item.value} value={item}>
                 {item.label}
               </ComboboxItem>
             )}

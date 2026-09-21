@@ -238,6 +238,9 @@ export const logitsHeatmapParser = {
 };
 
 export const logitsSentenceParser = {
+  lens: parseAsStringLiteral(["logit_lens", "tuned_lens"]).withDefault(
+    "logit_lens",
+  ),
   model: parseAsString.withDefault(""),
   source_lang: parseAsString.withDefault(""),
   sentence_id: parseAsInteger,

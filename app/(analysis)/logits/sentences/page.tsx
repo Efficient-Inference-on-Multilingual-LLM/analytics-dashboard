@@ -12,6 +12,7 @@ const LogitsSentences = () => {
   const [logitsSentenceState] = useLogitsSentenceUrlState();
 
   const ready =
+    !!logitsSentenceState.lens &&
     !!logitsSentenceState.model &&
     !!logitsSentenceState.source_lang &&
     logitsSentenceState.sentence_id !== null;
@@ -23,14 +24,13 @@ const LogitsSentences = () => {
 
   const request: DecoderRequest | null = ready
     ? {
+        lens: logitsSentenceState.lens as string,
         model_id: logitsSentenceState.model as string,
         lang_code: logitsSentenceState.source_lang as string,
         sentence_id: logitsSentenceState.sentence_id as number,
         normed: logitsSentenceState.normalized as boolean,
       }
     : null;
-
-  console.log("request", request);
 
   const { data: decoderData, isLoading } = useDecoder(request);
 
