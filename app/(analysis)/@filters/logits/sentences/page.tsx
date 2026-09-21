@@ -23,6 +23,7 @@ const LogitsSentencesFilter = () => {
     useLogitsSentenceUrlState();
 
   const { data: decoderSentences } = useDecoderSentences(
+    logitsSentenceState.lens,
     logitsSentenceState.model,
     logitsSentenceState.source_lang,
   );

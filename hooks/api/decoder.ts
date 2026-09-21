@@ -7,12 +7,14 @@ import type {
 } from "@/types/response";
 
 export function useDecoderSentences(
+  lens: string | null,
   modelId: string | null,
   langCode: string | null,
 ) {
   const request =
     modelId && langCode
       ? {
+          lens: lens,
           model_id: modelId,
           lang_code: langCode,
         }
@@ -22,7 +24,7 @@ export function useDecoderSentences(
     queryKey: ["decoder-sentences", request],
     queryFn: () =>
       apiClient.get<SentenceDecoderResponse>(
-        `/decode/${modelId?.replace("/", "__")}/${langCode}/sentences`,
+        `/decode/${lens}/${modelId?.replace("/", "__")}/${langCode}/sentences`,
       ),
     enabled: !!request,
     staleTime: Infinity,
