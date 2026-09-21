@@ -18,13 +18,14 @@ const LogitsSentences = () => {
     logitsSentenceState.sentence_id !== null;
 
   const { data: decoderSentences } = useDecoderSentences(
+    logitsSentenceState.lens,
     logitsSentenceState.model,
     logitsSentenceState.source_lang,
   );
 
   const request: DecoderRequest | null = ready
     ? {
-        lens: logitsSentenceState.lens as string,
+        lens_method: logitsSentenceState.lens as string,
         model_id: logitsSentenceState.model as string,
         lang_code: logitsSentenceState.source_lang as string,
         sentence_id: logitsSentenceState.sentence_id as number,
