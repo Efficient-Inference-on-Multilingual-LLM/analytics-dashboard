@@ -105,6 +105,7 @@ export const RoutingsRequestSchema = z.object({
 });
 
 export const DecoderRequestSchema = z.object({
+  lens: z.string(),
   model_id: z.string(),
   lang_code: z.string(),
   sentence_id: z.number().int(),
