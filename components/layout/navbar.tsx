@@ -77,6 +77,11 @@ const NAV = [
         label: "Sentence Logits",
         desc: "Logit visualization for sentences",
       },
+      {
+        href: "/logits/languages",
+        label: "Language Logits",
+        desc: "Logit visualization for languages",
+      },
     ],
   },
   {

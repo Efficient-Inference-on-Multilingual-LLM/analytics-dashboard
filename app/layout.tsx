@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/components/provider/query-provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { SessionProvider } from "@/components/provider/session-provider";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -21,15 +22,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("h-full", "font-sans", geist.variable)}>
       <body className="antialiased h-full">
-        <NuqsAdapter>
-          <QueryProvider>
-            <div className="h-full flex flex-col">
-              <Navbar />
-              <main className="flex-1 min-h-0">{children}</main>
-              <Footer />
-            </div>
-          </QueryProvider>
-        </NuqsAdapter>
+        <SessionProvider>
+          <NuqsAdapter>
+            <QueryProvider>
+              <div className="h-full flex flex-col">
+                <Navbar />
+                <main className="flex-1 min-h-0">{children}</main>
+                <Footer />
+              </div>
+            </QueryProvider>
+          </NuqsAdapter>
+        </SessionProvider>
       </body>
     </html>
   );

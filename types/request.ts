@@ -129,3 +129,25 @@ export type DynamicTrajectoryRequest = z.infer<
 export type DifferenceRequest = z.infer<typeof DifferenceRequestSchema>;
 export type RoutingsRequest = z.infer<typeof RoutingsRequestSchema>;
 export type DecoderRequest = z.infer<typeof DecoderRequestSchema>;
+
+// ---- lexicon curation ----
+
+export const LexiconStatusSchema = z.enum(["uncurated", "curated", "all"]);
+
+export const LexiconQueueRequestSchema = z.object({
+  status: LexiconStatusSchema,
+  q: z.string().nullable().optional(),
+  offset: z.number().int().min(0),
+  limit: z.number().int().min(1).max(200),
+});
+
+export const LexiconSaveRequestSchema = z.object({
+  token: z.string().min(1).max(200),
+  labels: z.array(z.string()), // [] = remove from lexicon
+  expected_version: z.number().int().min(0), // 0 = token has no entry yet
+  note: z.string().max(500).nullable().optional(),
+});
+
+export type LexiconStatus = z.infer<typeof LexiconStatusSchema>;
+export type LexiconQueueRequest = z.infer<typeof LexiconQueueRequestSchema>;
+export type LexiconSaveRequest = z.infer<typeof LexiconSaveRequestSchema>;

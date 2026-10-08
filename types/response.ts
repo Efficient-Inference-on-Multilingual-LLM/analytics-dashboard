@@ -15,6 +15,11 @@ import {
   RoutingDtoSchema,
   SentenceDtoSchema,
   DecoderDtoSchema,
+  LexiconQueueItemDtoSchema,
+  LexiconCoverageDtoSchema,
+  LexiconEntryStateDtoSchema,
+  LexiconEditDtoSchema,
+  LexiconSnapshotDtoSchema,
 } from "./dto";
 import { z } from "zod";
 
@@ -169,3 +174,31 @@ export type SentenceDecoderResponse = z.infer<
   typeof SentenceDecoderResponseSchema
 >;
 export type DecoderResponse = z.infer<typeof DecoderResponseSchema>;
+
+// ---- lexicon curation ----
+
+export const LexiconMeResponseSchema = z.object({
+  email: z.string().nullable(),
+  can_edit: z.boolean(),
+});
+
+export const LexiconQueueResponseSchema = z.object({
+  total: z.number().int(),
+  items: z.array(LexiconQueueItemDtoSchema),
+  coverage: LexiconCoverageDtoSchema,
+  labels: z.array(z.string()),
+});
+
+export const LexiconEntryResponseSchema = LexiconEntryStateDtoSchema;
+export const LexiconHistoryResponseSchema = z.array(LexiconEditDtoSchema);
+export const LexiconSnapshotResponseSchema = LexiconSnapshotDtoSchema;
+export const LexiconSnapshotsResponseSchema = z.array(LexiconSnapshotDtoSchema);
+
+export type LexiconMeResponse = z.infer<typeof LexiconMeResponseSchema>;
+export type LexiconQueueResponse = z.infer<typeof LexiconQueueResponseSchema>;
+export type LexiconEntryResponse = z.infer<typeof LexiconEntryResponseSchema>;
+export type LexiconHistoryResponse = z.infer<typeof LexiconHistoryResponseSchema>;
+export type LexiconSnapshotResponse = z.infer<typeof LexiconSnapshotResponseSchema>;
+export type LexiconSnapshotsResponse = z.infer<
+  typeof LexiconSnapshotsResponseSchema
+>;

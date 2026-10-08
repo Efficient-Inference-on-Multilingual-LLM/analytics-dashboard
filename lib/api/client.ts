@@ -29,11 +29,24 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   return response.json();
 }
 
+/** `Authorization: Bearer <token>` when a token is given, nothing otherwise. */
+function authHeaders(token?: string | null): HeadersInit {
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 export const apiClient = {
-  get: <T>(path: string) => request<T>(path, { method: "GET" }),
-  post: <T>(path: string, body: unknown) =>
+  get: <T>(path: string, token?: string | null) =>
+    request<T>(path, { method: "GET", headers: authHeaders(token) }),
+  post: <T>(path: string, body: unknown, token?: string | null) =>
     request<T>(path, {
       method: "POST",
       body: JSON.stringify(body),
+      headers: authHeaders(token),
+    }),
+  put: <T>(path: string, body: unknown, token?: string | null) =>
+    request<T>(path, {
+      method: "PUT",
+      body: JSON.stringify(body),
+      headers: authHeaders(token),
     }),
 };

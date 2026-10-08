@@ -149,3 +149,55 @@ export type DifferenceEndpointDto = z.infer<typeof DifferenceEndpointDtoSchema>;
 export type RoutingDto = z.infer<typeof RoutingDtoSchema>;
 export type SentenceDto = z.infer<typeof SentenceDtoSchema>;
 export type DecoderDto = z.infer<typeof DecoderDtoSchema>;
+
+// ---- lexicon curation ----
+
+export const LexiconContextDtoSchema = z.object({
+  lang: z.string(),
+  text: z.string(),
+});
+
+export const LexiconEntryStateDtoSchema = z.object({
+  labels: z.array(z.string()),
+  version: z.number().int(),
+  updated_by: z.string(),
+  updated_at: z.string(),
+});
+
+export const LexiconQueueItemDtoSchema = z.object({
+  token: z.string(),
+  rank: z.number().int().nullable(), // null = added by hand, not in the mass ranking
+  attest: z.record(z.string(), z.number()), // FLORES whole-word sentence counts per language
+  contexts: z.array(LexiconContextDtoSchema),
+  entry: LexiconEntryStateDtoSchema.nullable(),
+});
+
+export const LexiconCoverageDtoSchema = z.object({
+  n_candidates: z.number().int(),
+  n_curated: z.number().int(),
+  curated_mass_frac: z.number(),
+});
+
+export const LexiconEditDtoSchema = z.object({
+  id: z.number().int(),
+  old_labels: z.array(z.string()).nullable(),
+  new_labels: z.array(z.string()),
+  editor: z.string(),
+  note: z.string().nullable(),
+  created_at: z.string(),
+});
+
+export const LexiconSnapshotDtoSchema = z.object({
+  hash: z.string(),
+  path: z.string(),
+  n_entries: z.number().int(),
+  created_by: z.string(),
+  created_at: z.string(),
+});
+
+export type LexiconContextDto = z.infer<typeof LexiconContextDtoSchema>;
+export type LexiconEntryStateDto = z.infer<typeof LexiconEntryStateDtoSchema>;
+export type LexiconQueueItemDto = z.infer<typeof LexiconQueueItemDtoSchema>;
+export type LexiconCoverageDto = z.infer<typeof LexiconCoverageDtoSchema>;
+export type LexiconEditDto = z.infer<typeof LexiconEditDtoSchema>;
+export type LexiconSnapshotDto = z.infer<typeof LexiconSnapshotDtoSchema>;
